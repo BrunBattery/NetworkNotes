@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.335">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Bren’s Networking Notes - IPSec</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./BGP.html" rel="next">
+<link href="./index.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar docked">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title">IPSec</h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-center sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Bren’s Networking Notes</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://www.linkedin.com/in/brendanbattersby/" title="LinkedIn" class="sidebar-tool px-1"><i class="bi bi-linkedin"></i></a>
+    <a href="https://www.youtube.com/@brunbattery" title="YouTube" class="sidebar-tool px-1"><i class="bi bi-youtube"></i></a>
+</div>
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">Welcome</a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">Security</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./IPsec.html" class="sidebar-item-text sidebar-link active">IPSec</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="false">Routing</a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="false">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./BGP.html" class="sidebar-item-text sidebar-link">BGP</a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul class="collapse">
+  <li><a href="#security-features-of-ipsec" id="toc-security-features-of-ipsec" class="nav-link active" data-scroll-target="#security-features-of-ipsec">Security features of IPSec</a></li>
+  <li><a href="#ipsec-phases" id="toc-ipsec-phases" class="nav-link" data-scroll-target="#ipsec-phases">IPsec Phases</a></li>
+  <li><a href="#useful-showdebug-commands" id="toc-useful-showdebug-commands" class="nav-link" data-scroll-target="#useful-showdebug-commands">Useful show/debug commands</a></li>
+  <li><a href="#crypto-profile-ipsec-config-w-ikev1-with-without-gre" id="toc-crypto-profile-ipsec-config-w-ikev1-with-without-gre" class="nav-link" data-scroll-target="#crypto-profile-ipsec-config-w-ikev1-with-without-gre">Crypto Profile IPSec Config w/ IKEv1 (with &amp; without GRE)</a></li>
+  <li><a href="#crypto-profile-ipsec-config-w-ikev2-with-without-gre" id="toc-crypto-profile-ipsec-config-w-ikev2-with-without-gre" class="nav-link" data-scroll-target="#crypto-profile-ipsec-config-w-ikev2-with-without-gre">Crypto Profile IPSec Config w/ IKEv2 (with &amp; without GRE)</a></li>
+  <li><a href="#crypto-map-ipsec-config-w-ikev1-with-gre" id="toc-crypto-map-ipsec-config-w-ikev1-with-gre" class="nav-link" data-scroll-target="#crypto-map-ipsec-config-w-ikev1-with-gre">Crypto Map IPSec Config w/ IKEv1 (with GRE)</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block">IPSec</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="security-features-of-ipsec" class="level2">
+<h2 class="anchored" data-anchor-id="security-features-of-ipsec">Security features of IPSec</h2>
+<ul>
+<li><strong>Include:</strong>
+<ul>
+<li><strong>Data origin authentication</strong>
+<ul>
+<li>Verifying where packet came from</li>
+</ul></li>
+<li><strong>Data integity</strong>
+<ul>
+<li>Ensuring packet wasn’t changed in transit</li>
+</ul></li>
+<li><strong>Confidentiality</strong>
+<ul>
+<li>Encryption, preventing packet from being intercepted and read</li>
+<li>Prevented by limited allowed window</li>
+</ul></li>
+<li>Confidentiality is the mainly thought-of core feature</li>
+</ul></li>
+<li>IPSec uses symmetric key encryption</li>
+<li>Point-to-point tunnels in almost all cases, GETVPN can be P2MP</li>
+<li>Tunnel keys dynamically negotiated through IKE</li>
+<li>IKEv2 is superior but not supported by all platforms</li>
+</ul>
+</section>
+<section id="ipsec-phases" class="level2">
+<h2 class="anchored" data-anchor-id="ipsec-phases">IPsec Phases</h2>
+<ul>
+<li>Two phases:
+<ul>
+<li>Phase one establishes ISAKMP SA, secure tunnel to negotiate phase two through</li>
+<li>Phase two establishes IPsec SA, tunnel used to protect actual data traffic</li>
+<li><strong>In Phase 1:</strong>
+<ul>
+<li>Auth usually either PSK (Pre-shared key) or certificate based</li>
+<li>DH<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> used to exchange crypto keys
+<ul>
+<li>Higher DH number is more secure</li>
+</ul></li>
+<li>Encryption algorithms used to protect traffic
+<ul>
+<li>Possibilities include DES, 3DES, AES-128, AES-256, etc</li>
+</ul></li>
+<li>Authentication hashes used to ensure packet wasn’t modified in transit
+<ul>
+<li>IKEv1 supports MD5, SHA-1</li>
+</ul></li>
+<li>IKE parameters <em>must match</em> in order for phase 1 to complete successfully</li>
+<li>Main mode and aggressive mode both options for completing this step
+<ul>
+<li>Main mode preferred as aggressive has security issues</li>
+</ul></li>
+</ul></li>
+<li><strong>In Phase 2, following are negotiated:</strong>
+<ul>
+<li>Security protocol
+<ul>
+<li>ESP (Encapsulating Security Payload) or AH (Authentication Header)</li>
+<li>AH does not support encryption, rarely used</li>
+</ul></li>
+<li>Encapsulation modes
+<ul>
+<li>Tunnel or transport</li>
+<li>Tunnel adds new IP header, used for actually tunneling traffic</li>
+<li>Transport mode used for host-to-host applications or combined with GRE which does the tunneling itself</li>
+</ul></li>
+<li>Encryption (used for actual data traffic, not just tunnel)
+<ul>
+<li>DES, 3DES, AES-128, AES-256, etc</li>
+</ul></li>
+<li>Authentication (hashing)
+<ul>
+<li>MD5, SHA, etc</li>
+</ul></li>
+<li>Combination of the above called IPsec <strong>Transform Set</strong></li>
+<li>Only performed in QM (quick mode)</li>
+</ul></li>
+</ul></li>
+<li>UDP 500, 4500 are ports used to establish control plane
+<ul>
+<li>4500 is only used with NAT-T<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></li>
+</ul></li>
+<li>IPsec dataplane uses ports 50 (ESP), 51 (AH) or 4500 with NAT-T</li>
+</ul>
+<hr>
+</section>
+<section id="useful-showdebug-commands" class="level2">
+<h2 class="anchored" data-anchor-id="useful-showdebug-commands">Useful show/debug commands</h2>
+<ul>
+<li>Phases:
+<ul>
+<li><strong>Phase 1:</strong>
+<ul>
+<li><code>show crypto isakmp sa</code> - should show <strong>QM_IDLE</strong> as state and status as <strong>ACTIVE</strong></li>
+<li><code>debug crypto isakmp</code>, or <code>debug crypto condition peer ipv4 &lt;IP&gt;</code> to debug for one specific peer</li>
+</ul></li>
+<li><strong>Phase 2:</strong>
+<ul>
+<li><code>show crypto ipsec sa [&lt;peer IP&gt;</code>]</li>
+<li><code>debug crypto ipsec</code></li>
+</ul></li>
+</ul></li>
+</ul>
+<hr>
+</section>
+<section id="crypto-profile-ipsec-config-w-ikev1-with-without-gre" class="level2">
+<h2 class="anchored" data-anchor-id="crypto-profile-ipsec-config-w-ikev1-with-without-gre">Crypto Profile IPSec Config w/ IKEv1 (with &amp; without GRE)</h2>
+<pre><code>    interface Tunnel0  
+     ip address &lt;ip &amp; mask&gt;
+     tunnel source &lt;ip&gt;
+     tunnel destination &lt;ip&gt;
+      
+    crypto isakmp policy 10
+     encryption aes 256
+     hash md5
+     authentication pre-share
+     group 14
+     lifetime 3600 
+    !
+    crypto isakmp key &lt;PSK&gt; address &lt;remote outside interface IP with subnet mask&gt;
+    !
+    crypto ipsec transform-set &lt;ts-name&gt; esp-3des esp-md5-hmac
+     mode transport
+     !mode tunnel if using VTI
+    
+    crypto ipsec profile &lt;profile-name&gt;
+     set transform-set &lt;ts-name&gt;
+      
+    interface Tunnel0
+     tunnel protection ipsec profile &lt;profile-name&gt;
+     ip mtu 1400
+     ip tcp adjust-mss 1360
+     !optionally can define tunnel mode as ipsec to bypass GRE and use VTI - 'tunnel mode ipsec ipv4'
+    
+    !note that routing through tunnel must exist for ipsec sa to form - routing not included in config
+    !can do underlay and overlay routing protocols, static routing, front door vrfs, many options</code></pre>
+</section>
+<section id="crypto-profile-ipsec-config-w-ikev2-with-without-gre" class="level2">
+<h2 class="anchored" data-anchor-id="crypto-profile-ipsec-config-w-ikev2-with-without-gre">Crypto Profile IPSec Config w/ IKEv2 (with &amp; without GRE)</h2>
+<pre><code>    interface Tunnel0  
+     ip address &lt;ip &amp; mask&gt;
+     tunnel source &lt;ip&gt;
+     tunnel destination &lt;ip&gt;
+      
+    crypto ikev2 keyring &lt;keyring-name&gt;
+     peer ANY
+     address 0.0.0.0 0.0.0.0 ! any host for DMVPN, specific host for site-to-site
+     pre-shared-key &lt;psk&gt;
+    !
+    crypto ikev2 profile &lt;ike-prof-name&gt;
+     match identity remote address 0.0.0.0 ! any host for DMVPN, specific host for site-to-site
+     authentication remote pre-share
+     authentication local pre-share
+     keyring local &lt;keyring-name&gt;
+    !
+    crypto ipsec transform-set &lt;ts-name&gt; esp-aes 256 esp-sha-hmac
+     mode transport
+     !mode tunnel if using VTI
+    !
+    crypto ipsec profile &lt;profile-name&gt;
+     set transform-set &lt;ts-name&gt;
+     set ikev2-profile &lt;ike-prof-name&gt;
+    !
+    interface Tunnel0
+     tunnel protection ipsec profile &lt;profile-name&gt;
+     !optionally can define tunnel mode as ipsec to bypass GRE and use VTI - 'tunnel mode ipsec ipv4'
+    
+    !note that routing through tunnel must exist for ipsec sa to form - routing not included in config
+    !can do underlay and overlay routing protocols, static routing, front door vrfs, many options</code></pre>
+</section>
+<section id="crypto-map-ipsec-config-w-ikev1-with-gre" class="level2">
+<h2 class="anchored" data-anchor-id="crypto-map-ipsec-config-w-ikev1-with-gre">Crypto Map IPSec Config w/ IKEv1 (with GRE)</h2>
+<pre><code>    interface Tunnel0  
+    ip address &lt;ip &amp; mask&gt;
+    tunnel source &lt;ip&gt;
+    tunnel destination &lt;ip&gt;
+    ip mtu 1400
+    ip tcp adjust-mss 1360
+      
+    crypto isakmp policy 10
+     encryption aes 256
+     hash md5
+     authentication pre-share
+     group 14
+     lifetime 180 
+    !
+    crypto isakmp key &lt;PSK&gt; address &lt;remote outside interface IP with 32 bit subnet mask&gt;
+    !
+    crypto ipsec transform-set &lt;ts-name&gt; esp-3des esp-md5-hmac
+        mode transport
+    !
+    access-list 120 permit gre host &lt;local outside interface ip&gt; host &lt;remote outside interface IP&gt;
+      
+    crypto map &lt;cm-name&gt; 10 ipsec-isakmp&nbsp;  
+    set peer &lt;ip&gt;
+    set transform-set &lt;ts-name&gt; 
+    match address 120  
+      
+    interface Ethernet0/0   
+    crypto map &lt;cm-name&gt;</code></pre>
+<section id="see-dmvpn-page-for-details-on-dmvpn-ipsec-config" class="level5">
+<h5 class="anchored" data-anchor-id="see-dmvpn-page-for-details-on-dmvpn-ipsec-config">See DMVPN page for details on DMVPN IPsec config</h5>
+
+
+</section>
+</section>
+
+
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>Diffie Hellman - asymmetric key algorithm used for IPsec, SSL, SSH and others. Peers create public and private keys, exchange public key and generate symmetric key (shared secret) with peer’s private key<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>NAT-Traversal add an additional UDP header which encapsulates the IPsec ESP header. Since this header is not encrypted it allows NAT without breaking packet integrity requirements of IPsec<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./index.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Welcome</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./BGP.html" class="pagination-link">
+        <span class="nav-page-text">BGP</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-right">Published by Brendan Battersby, 2023</div>
+  </div>
+</footer>
+
+
+
+</body></html>

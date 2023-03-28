@@ -1,11 +1,21 @@
 ---
-title: "NetworkingNotes"
+title: "Bren's Networking Notes"
+about:
+  template: jolla
+  image: images/me.jpg
+  links:
+    - icon: linkedin
+      text: LinkedIn
+      href: https://www.linkedin.com/in/brendanbattersby/
+    - icon: youtube
+      text: YouTube
+      href: https://www.youtube.com/@brunbattery
 ---
 
-This is a Quarto website.
+Hi all,
 
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
+These are some notes I've thrown together recently while preparing for the CCNP ENARSI exam. I hope you find something useful in here!
 
-```{r}
-1 + 1
-```
+
+## About me
+I'm a network engineer with a passion for learning. You can find me on my LinkedIn or on my YouTube channel below.

@@ -1,20 +1,52 @@
 project:
   type: website
   output-dir: docs
+  
+website: 
+  page-navigation: true
+  reader-mode: false
+  title: "Bren's Networking Notes" 
+  site-url: "https://brunbattery.github.io/NetworkNotes/" 
+  
+  page-footer:
+    background: primary
+    right: "Published by Brendan Battersby, 2023"
+    left: ""
+    
+  sidebar:
+    background: dark
+    logo: ""
+    pinned: true
+    align: center
+    tools: 
+      - icon: linkedin
+        href: https://www.linkedin.com/in/brendanbattersby/
+        text: "LinkedIn"
+      - icon: youtube
+        href: https://www.youtube.com/@brunbattery
+        text: "YouTube"
 
-website:
-  title: "NetworkingNotes"
-  navbar:
-    left:
+
+    style: "docked"
+    search: true
+    collapse-level: 1
+    contents:
       - href: index.qmd
-        text: Home
-      - about.qmd
+        text: Welcome
+      - section: Security
+        contents: 
+          - IPsec.md
+      - section: Routing
+        contents: 
+          - BGP.md
 
 format:
   html:
-    theme: cosmo
-    css: styles.css
-    toc: true
+    theme: solar
+    fontsize: 1.1em
+    monofontcolor: rgb(185, 143, 13)
+    monobackgroundcolor: rgb (185, 143, 13)
 
-editor: visual
 
+filters:
+  - quarto

@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.335">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Bren’s Networking Notes - BGP</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./IPsec.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar docked">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title">BGP</h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-center sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Bren’s Networking Notes</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://www.linkedin.com/in/brendanbattersby/" title="LinkedIn" class="sidebar-tool px-1"><i class="bi bi-linkedin"></i></a>
+    <a href="https://www.youtube.com/@brunbattery" title="YouTube" class="sidebar-tool px-1"><i class="bi bi-youtube"></i></a>
+</div>
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">Welcome</a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false">Security</a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./IPsec.html" class="sidebar-item-text sidebar-link">IPSec</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">Routing</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./BGP.html" class="sidebar-item-text sidebar-link active">BGP</a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul class="collapse">
+  <li><a href="#general-notes" id="toc-general-notes" class="nav-link active" data-scroll-target="#general-notes">General Notes</a></li>
+  <li><a href="#key-features" id="toc-key-features" class="nav-link" data-scroll-target="#key-features">Key Features</a></li>
+  <li><a href="#bgp-attributes" id="toc-bgp-attributes" class="nav-link" data-scroll-target="#bgp-attributes">BGP Attributes</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block">BGP</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="general-notes" class="level2">
+<h2 class="anchored" data-anchor-id="general-notes">General Notes</h2>
+<ul>
+<li>AD 200 for iBGP, 20 for eBGP</li>
+<li>Forms connection over TCP port 179</li>
+<li>Only advertises best routes, all others not advertised</li>
+<li><strong>Best-path Algorithm</strong>
+<ol type="1">
+<li>Weight (Highest)</li>
+<li>Local Preference (Highest)</li>
+<li>Originated locally</li>
+<li>AS_PATH (Shortest)</li>
+<li>Origin code (IGP &gt; EGP &gt; ?)</li>
+<li>MED (Lowest)</li>
+<li>Path (eBGP &gt; iBGP)</li>
+<li>IGP metric (Lowest)</li>
+<li>Route age (Oldest, only compared when routes from different eBGP peers)</li>
+<li>RID (Lowest)</li>
+</ol>
+<ul>
+<li><strong>W</strong>e <strong>L</strong>ove <strong>O</strong>ranges <strong>AS</strong> <strong>O</strong>ranges <strong>M</strong>ean <strong>P</strong>ure <strong>R</strong>efreshment</li>
+</ul></li>
+<li><strong>iBGP</strong>
+<ul>
+<li>TTL of 255 by default</li>
+<li>Does not change next-hop by default - can be changed with <code>neighbor &lt;ip-address | peer-group-name&gt; next-hop-self</code></li>
+<li>Uses split horizon<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> for loop prevention</li>
+</ul></li>
+<li><strong>eBGP</strong>
+<ul>
+<li>TTL of 1 by default - can be increased with <code>neighbor &lt;ip&gt; ebgp-multihop 255</code></li>
+<li>Can also use <code>neighbor &lt;ip&gt; ttl-security hops &lt;hop-count&gt;</code></li>
+<li>Difference between above is that <code>eBGP-multihop</code> sets the <em>maximum range</em> allowed, whereas <code>TTL-security</code> sets the <em>exact range</em></li>
+<li>If peering with different update source but not through additional hops, can use <code>neighbor &lt;ip&gt; disable-connected-check</code></li>
+<li>Does change next-hop by default</li>
+</ul></li>
+<li><strong>Peer groups</strong>
+<ul>
+<li>Can be used when multiple neighbors have the same requirements</li>
+<li>Use <code>neighbor &lt;name&gt; peer-group</code> to set up peer-group, then perform config under <code>neighbor &lt;name&gt; &lt;command&gt;</code></li>
+<li>Peer groups applied to neighbor with <code>neighbor &lt;ip&gt; peer-group &lt;name&gt;</code></li>
+<li>Can check with <code>show ip bgp peer-group</code></li>
+<li>Peer groups are natively set up on the back end to limit CPU usage - only purpose is simplification of config</li>
+</ul></li>
+<li><strong>ECMP</strong>
+<ul>
+<li>Can enable load-balancing with <code>maximum paths &lt;path#&gt;</code> command</li>
+<li>Only takes effect when many parameters on routes match - Weight, local preference, AS-PATH (both numbers and lengths), origin code, MED, IGP metric</li>
+</ul></li>
+<li>Exact match of prefix in route table required for advertisement - configuring null route to prefix common</li>
+<li>Good idea to change update source to a loopback interface with <code>neighbor &lt;ip&gt; update-source &lt;loopback&gt;</code></li>
+<li><code>clear ip bgp * soft</code> useful to refresh route table without tearing down neighborships</li>
+<li>Selectively advertise default route with <code>neighbor &lt;IP&gt; default-originate [route-map &lt;CONDITION&gt;]</code></li>
+<li>Advertise a different AS to a peer than <code>router bgp</code> AS with <code>neighbor &lt;IP&gt; local-as &lt;OldAS&gt;</code> - useful in migration</li>
+<li><code>neighbor &lt;IP&gt; fall-over</code> can be used to immediately tear down session if IGP route to neighbor disappears</li>
+</ul>
+<hr>
+</section>
+<section id="key-features" class="level2">
+<h2 class="anchored" data-anchor-id="key-features">Key Features</h2>
+<ul>
+<li><strong>Summarization</strong>
+<ul>
+<li>Primarily done with the <code>aggregate address &lt;prefix&gt; &lt;mask&gt;</code> command
+<ul>
+<li>Only works for prefixes already in BGP table</li>
+<li>Router performing summary installs null route into table for aggregate</li>
+<li>Should be used with <code>as-set</code> suffix - this will include AS-PATH information and prevent loops/suboptimal routes
+<ul>
+<li>Inherits community values of any specific prefixes</li>
+<li>For example, if one of four specific prefixes has a <code>no-export</code> community, summary with <code>as-set</code> will as well</li>
+<li>These can be modified or stripped with <code>attribute-map</code> suffix</li>
+<li>Can also use <code>advertise-map</code> suffix to select specific prefix which will determine attributes of summary</li>
+</ul></li>
+<li>By default does not suppress specific prefixes - <code>summary-only</code> at the end of command will</li>
+<li>Prefixes summarized in this way have <em>ATOMIC_AGGREGATE</em> attribute assigned</li>
+<li>Also assigned <em>AGGREGATOR</em> attribute specifying AS number and RID of aggregator</li>
+<li>Can selectively suppress specifc prefixes with <code>suppress-map</code> - all prefixes in map will be suppressed:</li>
+</ul>
+<pre><code>      ip prefix-list SUPPRESS_PREFIX 150.1.1.0/24
+      !
+      route-map SUPPRESS_MAP permit 10
+       match ip address prefix-list SUPPRESS_PREFIX
+      !
+      router bgp 200  
+       aggregate-address 150.1.0.0 mask 255.255.0.0 suppress-map SUPPRESS_MAP as-set</code></pre>
+<ul>
+<li>Can also use <code>unsuppress-map</code> combined with summary-only to advertise specific prefixes ^66c6ab</li>
+<li>Since this is per-neighbor it can be used for inbound path manipulation:</li>
+</ul>
+<pre><code>      ip prefix-list NET_1 permit 10.0.1.0/24 
+      !
+      route-map UNSUPPRESS_MAP permit 10
+       match ip address prefix-list NET_1
+      !       
+      router bgp 200
+       aggregate-address 10.0.0.0 255.255.252.0 summary-only as-set
+       neighbor 155.1.37.7 unsuppress-map UNSUPPRESS_MAP</code></pre></li>
+<li>Alternatively, can advertise a summary prefix in IGP with the <code>network</code> command - commonly done with a static null route</li>
+</ul></li>
+<li><strong>Route Reflection</strong>
+<ul>
+<li>Used to bypass full mesh requirement in iBGP</li>
+<li>Configured with <code>neighbor &lt;ip&gt; route-reflector-client</code> on route reflector</li>
+<li>Reflector must have full mesh if full reachability is required (unless using multiple reflectors)</li>
+<li>Abide by following 3 rules:</li>
+</ul>
+<ol type="1">
+<li>Routes learned from EBGP peers can be sent to other EBGP peers, clients, and non-clients.</li>
+<li>Routes learned from client peers can be sent to EBGP peers, other client peers, and non-clients.</li>
+<li>Routes learned from non-client peers can be sent to EBGP peers, and client peers,&nbsp;<em>but not other non-clients</em>.</li>
+</ol>
+<ul>
+<li>Functions like DR/BDR in [[OSPF]] by default - does not insert itself into transit path</li>
+<li>Can be forced to transit RR with <code>next-hop-self</code> command if desired</li>
+</ul></li>
+<li><strong>Communities</strong>
+<ul>
+<li>Activated for transport to peers with <code>neighbor &lt;ip&gt; send-community</code></li>
+<li>Made more readable with global config command <code>ip bgp-community new-format</code></li>
+<li>Applied to prefixes with <code>set community &lt;value1&gt; &lt;value2&gt; ... &lt;valueN&gt;</code> in route-map</li>
+<li>To add communities without affecting existing, use <code>set community additive &lt;value1&gt; &lt;value2&gt; ... &lt;valueN&gt;</code></li>
+<li>Matched with <code>community-lists</code> - like ACLs, both standard and expanded (extended) versions
+<ul>
+<li>Standard version uses 1-99, only permits or denies communities</li>
+</ul>
+<pre><code>  ip community-list 1 permit 100:10 100:20
+  ip community-list 1 deny no-export</code></pre>
+<ul>
+<li>Standard version uses AND logic with multiple communities in one line, OR logic with multiple lines</li>
+<li>Expanded version functions the same but adds <strong>regular expression</strong> functionality</li>
+</ul></li>
+<li><strong>Sample config of setting community:</strong></li>
+</ul>
+<pre><code>          ip as-path access-list 1 permit 60$
+          !
+          route-map SET_COMMUNITY permit 10
+           match as-path 1
+           set community 100:200
+          !
+          route-map SET_COMMUNITY permit 100
+          !
+          router bgp 200
+           neighbor 155.1.45.4 send-community
+           neighbor 155.1.45.4 route-map SET_COMMUNITY out</code></pre>
+<ul>
+<li><strong>Sample config of matching community:</strong></li>
+</ul>
+<pre><code>          ip community-list standard 100:200 permit 100:200
+          !
+          route-map SET_LOCAL_PREFERENCE permit 10
+           match community 100:200
+           set local-preference 200
+          !
+          route-map SET_LOCAL_PREFERENCE permit 100
+          !
+          router bgp 100
+           neighbor 155.1.13.3 route-map SET_LOCAL_PREFERENCE in</code></pre>
+<ul>
+<li><strong>Well-known communities:</strong>
+<ul>
+<li><strong>no-advertise</strong>
+<ul>
+<li>Set with <code>set community no-advertise</code></li>
+<li>Signals to not advertise the prefix with this community to <em>any peer</em></li>
+</ul></li>
+<li><strong>no-export</strong>
+<ul>
+<li>Set with <code>set community no-export</code></li>
+<li>Signals to not export this prefix from the AS - can be advertised <em>within AS only</em></li>
+</ul></li>
+<li><strong>local-as</strong>
+<ul>
+<li>Set with <code>set community local-as</code></li>
+<li>Functions the same as <code>no-export</code> but also disallows advertisement <em>between confederation sub-as</em></li>
+</ul></li>
+</ul></li>
+<li>Deleting communities done with a <code>community-list</code> referencing community to be deleted, then using <code>set comm-list &lt;comlist&gt; delete</code> under route-map</li>
+</ul></li>
+<li><strong>Confederation</strong>
+<ul>
+<li>Used to reduce full-mesh BGP requirements by splitting one public AS into smaller sub-as</li>
+<li>Sub-as use eBGP advertisement rules between each other, removing full mesh requirement</li>
+<li>Notable exception to eBGP behavior is that <em>next-hop is not modified</em> between confederation peers</li>
+<li>Configured by using sub-as with <code>router bgp</code> command and using <code>bgp confederation identifier &lt;as&gt;</code> under router bgp</li>
+<li>Other sub-as defined with <code>bgp confederation peers &lt;sub-as&gt;</code> under router bgp</li>
+<li>Can be used in combination with route reflection</li>
+</ul></li>
+<li><strong>Next-hop modification</strong>
+<ul>
+<li>Other than next-hop-self, you can also manually define next-hop with a route-map:</li>
+</ul>
+<pre><code>      route-map SET_NEXT_HOP_FROM_R8 permit 10
+      set ip next-hop 155.1.58.8
+      !
+      router bgp 100
+      neighbor 155.1.58.8 route-map SET_NEXT_HOP_FROM_R8 in</code></pre></li>
+<li><strong>BGP regexp</strong> ^f8087d
+<ul>
+<li>Can be used to search for specifc AS-PATHs in table - for example: <code>show ip bgp regexp ^$</code></li>
+<li>Above will show prefixes originated locally with the AS. Cheat sheet <a href="http://gponsolution.com/bgp-regular-expressions-cheat-sheet.html">here.</a></li>
+<li>Can be used to filter with ACLs with ip as-path: <code>ip as-path access-list 1 permit _54$</code></li>
+<li>Then use <code>match as-path</code> under a route-map to apply modifications</li>
+</ul></li>
+<li><strong>BGP backdoor</strong>
+<ul>
+<li>Created to prefer links via IGP over eBGP (raises AD of specific prefix to 200)</li>
+<li>Configured with <code>network &lt;subnet&gt; mask &lt;netmask&gt; backdoor</code> under router BGP</li>
+</ul></li>
+<li><strong>Conditional Advertising</strong>
+<ul>
+<li>Allows advertising based on existence of another prefix in table</li>
+<li>Configured with <code>neighbor &lt;IP&gt; advertise-map MAP1 [non-exist|exist-map] MAP2</code></li>
+<li>First map is prefix to advertise, second is prefix to monitor</li>
+<li>BGP checks on existence of MAP2 every 60 seconds</li>
+</ul></li>
+<li><strong>Conditional Route Injection</strong>
+<ul>
+<li>Functions similar to [[BGP#^66c6ab|unsuppress map]] in allowing specific prefix advertisement from aggregate</li>
+<li>Difference is it can be configured on routers not originating the aggregate route</li>
+<li>One map matches aggregate and router originating summary, other map matches specific prefix to advertise</li>
+<li>Configuration:</li>
+</ul>
+<pre><code>      ip prefix-list INJECT_PREFIX permit 10.0.1.0/24
+      ip prefix-list AGGREGATE permit 10.0.0.0/22
+      ip prefix-list ROUTE_SOURCE permit 155.1.37.3/32
+      !
+      route-map INJECT_MAP permit 10
+       set ip address prefix-list INJECT_PREFIX
+       set origin igp
+      !
+      route-map EXIST_MAP permit 10
+       match ip address prefix-list AGGREGATE
+       match ip route-source prefix-list ROUTE_SOURCE
+      ! 
+      router bgp 300
+       bgp inject-map INJECT_MAP exist-map EXIST_MAP</code></pre></li>
+<li><strong>Route Filtering</strong>
+<ul>
+<li>Preferably done per-neighbor with route-maps, but can be applied directly with prefix list or ACL</li>
+<li><code>neighbor 155.1.79.9 route-map FROM_R9 in</code> for a route-map, with a deny in the route-map</li>
+<li><code>neighbor 192.10.1.254 prefix-list BLOCK_222 in</code> for prefix-list</li>
+<li><code>neighbor 192.10.1.254 distribute-list BLOCK_222 in</code> can be used for ACL filtering, not recommended</li>
+</ul></li>
+<li><strong>Maximum prefix</strong>
+<ul>
+<li><code>maximum-prefix</code> can be used to limit allowed prefix # from a peer</li>
+<li>By default shuts down connection, can use <code>warning-only</code> or <code>restart &lt;minutes&gt;</code> prefixes if desired</li>
+<li>For example: <code>neighbor 155.1.108.10 maximum-prefix 20 80 restart 3</code></li>
+</ul></li>
+<li><strong>BGP Dampening</strong>
+<ul>
+<li>Can be used to prevent table instability from flapping routes</li>
+<li>Assigned to all prefixes with <code>bgp dampening [&lt;Half_Life&gt; &lt;ReuseLimit&gt; &lt;SuppressLimit&gt; &lt;MaximumSuppressTime&gt;]</code></li>
+<li>Can also be assigned to specific prefixes with route-maps:</li>
+</ul>
+<pre><code>      ip as-path access-list 100 permit _100$
+      !
+      route-map DAMPENING
+       match as-path 100
+       set dampening 4 750 2000 16
+      !
+      router bgp 200
+       bgp dampening route-map DAMPENING</code></pre></li>
+<li><strong>BGP Outbound Route Filtering</strong>
+<ul>
+<li>Allows you to push a route filter to a remote neighbor</li>
+<li>Benefit is decrease in unnecessary route information as filtering occurs on neighbor before prefixes sent</li>
+<li>Both peers must have orf capability enabled for it to function</li>
+<li>Verified locally with: <code>show ip bgp neighbors &lt;ip&gt;</code>, remotely with: <code>show ip bgp neighbors &lt;ip&gt; received prefix-filter</code></li>
+</ul>
+<pre><code>      ip prefix-list ORF deny 112.0.0.0/8
+      ip prefix-list ORF permit 0.0.0.0/0 le 32
+      !
+      router bgp 100
+       neighbor 155.1.45.5 capability orf prefix-list both
+       neighbor 155.1.45.5 prefix-list ORF in</code></pre></li>
+<li><strong>See Redistribution for details on that</strong></li>
+</ul>
+<hr>
+<ul>
+<li><strong>Useful debugs</strong>
+<ul>
+<li><code>debug ip bgp</code></li>
+<li><code>debug ip bgp updates</code></li>
+</ul></li>
+</ul>
+<hr>
+</section>
+<section id="bgp-attributes" class="level2">
+<h2 class="anchored" data-anchor-id="bgp-attributes">BGP Attributes</h2>
+<section id="weight" class="level4">
+<h4 class="anchored" data-anchor-id="weight">Weight</h4>
+<ul>
+<li>Only used on the router where it is configured</li>
+<li>Used to affect outbound routing.</li>
+<li>Higher value is better - default is 0 (32768 if originated locally)</li>
+<li>Highest in BGP path selection algorithm</li>
+<li>Cisco proprietary</li>
+<li>Configuration:</li>
+</ul>
+<pre><code>    route-map SET_WEIGHT
+     match ip address|ip as-path ...
+     set weight 100
+    !
+    router bgp 100
+     neighbor &lt;ip&gt; route-map SET_WEIGHT in</code></pre>
+</section>
+<section id="local-preference" class="level4">
+<h4 class="anchored" data-anchor-id="local-preference">Local Preference</h4>
+<ul>
+<li>Locally significant (to the AS), does not transit outside AS.</li>
+<li>Used to affect outbound routing.</li>
+<li>Higher value is better - defaults to 100</li>
+<li>Configuration:</li>
+</ul>
+<pre><code>    route-map SET_LP
+     match ip address|ip as-path ...
+     set local-preference 1000
+     !
+    router bgp 100
+     neighbor &lt;ip&gt; route-map SET_LP in</code></pre>
+</section>
+<section id="as-path" class="level4">
+<h4 class="anchored" data-anchor-id="as-path">AS-PATH</h4>
+<ul>
+<li>Changed for each AS prefix transits through</li>
+<li>Used to affect inbound routing</li>
+<li>Can be used to influence path selection with as-path prepending</li>
+<li>Can be ignored with <code>bgp bestpath as-path ignore</code> - this is dangerous and not recommended</li>
+<li>Can be limited in length with <code>bgp maxas-limit &lt;#&gt;</code></li>
+<li>Configuration:</li>
+</ul>
+<pre><code>    route-map PREPEND
+     match ip address|ip as-path ...
+     set as-path prepend 100 100 100
+        !
+    router bgp 100
+     neighbor &lt;ip&gt; route-map PREPEND out</code></pre>
+</section>
+<section id="origin-code" class="level4">
+<h4 class="anchored" data-anchor-id="origin-code">Origin Code</h4>
+<ul>
+<li>Rarely used to influence path selection - inflexible</li>
+<li>IGP &gt; EGP &gt; Incomplete</li>
+<li>Could affect inbound or outbound routing</li>
+<li>Configuration:</li>
+</ul>
+<pre><code>    route-map ORIGIN
+     match ip address|ip as-path ...
+     set origin [igp|egp|incomplete]
+        
+    router bgp 100
+     neighbor &lt;ip&gt; route-map ORIGIN out</code></pre>
+<section id="med" class="level5">
+<h5 class="anchored" data-anchor-id="med">MED</h5>
+<ul>
+<li>By default only compared when originating from same AS</li>
+<li>Lowest is best - defaults to 0</li>
+<li>Used to affect inbound routing</li>
+<li>Can use <code>bgp always-compare-med</code> under router BGP to allow comparison of MED between different ASs</li>
+<li>Configuration:</li>
+</ul>
+<pre><code>    route-map MED
+     match ip address|ip as-path ...
+     set metric 1000
+        
+    router bgp 100
+     neighbor &lt;ip&gt; route-map MED out</code></pre>
+
+
+</section>
+</section>
+</section>
+
+
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>BGP split horizon prevents loops in iBGP by disallowing advertisements recieved from one peer to be advertised on to another. This makes full mesh a requirement for iBGP unless using route reflectors and/or confederation<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./IPsec.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">IPSec</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-right">Published by Brendan Battersby, 2023</div>
+  </div>
+</footer>
+
+
+
+</body></html>
