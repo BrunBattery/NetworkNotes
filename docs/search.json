@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "Bren’s Networking Notes",
     "section": "",
-    "text": "Hi all,\nThese are some notes I’ve thrown together recently while preparing for the CCNP ENARSI exam. I hope you find something useful in here!"
+    "text": "Hi all,\nI threw this page together to host some notes I’ve put together during my time studying for CCNP ENARSI. The navigation follows the flow of the exam blueprint. I hope you find something useful or informative here."
   },
   {
     "objectID": "about.html",
@@ -74,7 +74,7 @@
     "href": "index.html#about-me",
     "title": "Bren’s Networking Notes",
     "section": "About me",
-    "text": "About me\nI’m a network engineer with a passion for learning. You can find me on my LinkedIn or on my YouTube channel below."
+    "text": "About me\nI’m a network engineer with a passion for learning based in beautiful British Columbia, Canada. Aside from tech, I love weightlifting, hiking and gaming. You can find me on my LinkedIn or on my YouTube channel below."
   },
   {
     "objectID": "BGP.html#bgp-attributes",
