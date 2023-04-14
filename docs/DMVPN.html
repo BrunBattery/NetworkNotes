@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.335">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Bren’s Networking Notes - DMVPN</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./IPsec &amp; GRE VPN.html" rel="next">
+<link href="./MPLS.html" rel="prev">
+<link href="./images/logo.png" rel="icon" type="image/png">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar docked">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title">DMVPN</h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-center sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Bren’s Networking Notes</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://www.linkedin.com/in/brendanbattersby/" title="LinkedIn" class="sidebar-tool px-1"><i class="bi bi-linkedin"></i></a>
+    <a href="https://www.youtube.com/@brunbattery" title="YouTube" class="sidebar-tool px-1"><i class="bi bi-youtube"></i></a>
+</div>
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">Welcome</a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false">L3 Technologies</a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Redistribution.html" class="sidebar-item-text sidebar-link">Redistribution</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./PBR.html" class="sidebar-item-text sidebar-link">PBR</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./VRF.html" class="sidebar-item-text sidebar-link">VRF</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./EIGRP.html" class="sidebar-item-text sidebar-link">EIGRP</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./OSPF.html" class="sidebar-item-text sidebar-link">OSPF</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./BGP.html" class="sidebar-item-text sidebar-link">BGP</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">VPN &amp; Encryption</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./MPLS.html" class="sidebar-item-text sidebar-link">MPLS</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./DMVPN.html" class="sidebar-item-text sidebar-link active">DMVPN</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./IPsec &amp; GRE VPN.html" class="sidebar-item-text sidebar-link">IPsec &amp; GRE VPN</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="false">Infrastructure Security</a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="false">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./AAA.html" class="sidebar-item-text sidebar-link">AAA</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./uRPF.html" class="sidebar-item-text sidebar-link">uRPF</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./CoPP.html" class="sidebar-item-text sidebar-link">CoPP</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./IPv6 First Hop Security.html" class="sidebar-item-text sidebar-link">IPv6 First Hop Security</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="false">Infrastructure Services</a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="false">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./SNMP.html" class="sidebar-item-text sidebar-link">SNMP</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Syslog.html" class="sidebar-item-text sidebar-link">Syslog</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./DHCP.html" class="sidebar-item-text sidebar-link">DHCP</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./IP SLA &amp; Tracking.html" class="sidebar-item-text sidebar-link">IP SLA &amp; Tracking</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Netflow.html" class="sidebar-item-text sidebar-link">Netflow</a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#general-notes" id="toc-general-notes" class="nav-link active" data-scroll-target="#general-notes">General Notes</a></li>
+  <li><a href="#dmvpn-phases" id="toc-dmvpn-phases" class="nav-link" data-scroll-target="#dmvpn-phases">DMVPN Phases</a></li>
+  <li><a href="#useful-show-commands" id="toc-useful-show-commands" class="nav-link" data-scroll-target="#useful-show-commands">Useful show commands</a></li>
+  <li><a href="#config" id="toc-config" class="nav-link" data-scroll-target="#config">Config</a>
+  <ul>
+  <li><a href="#dmvpn-phase-1-configuration-no-ipsec" id="toc-dmvpn-phase-1-configuration-no-ipsec" class="nav-link" data-scroll-target="#dmvpn-phase-1-configuration-no-ipsec">DMVPN Phase 1 Configuration (No IPsec)</a></li>
+  <li><a href="#dmvpn-phase-2-configuration-no-ipsec" id="toc-dmvpn-phase-2-configuration-no-ipsec" class="nav-link" data-scroll-target="#dmvpn-phase-2-configuration-no-ipsec">DMVPN Phase 2 Configuration (No IPsec)</a></li>
+  <li><a href="#dmvpn-phase-3-configuration-no-ipsec" id="toc-dmvpn-phase-3-configuration-no-ipsec" class="nav-link" data-scroll-target="#dmvpn-phase-3-configuration-no-ipsec">DMVPN Phase 3 Configuration (No IPsec)</a></li>
+  <li><a href="#dmvpn-ikev1-ipsec-configuration" id="toc-dmvpn-ikev1-ipsec-configuration" class="nav-link" data-scroll-target="#dmvpn-ikev1-ipsec-configuration">DMVPN IKEv1 IPsec Configuration</a></li>
+  <li><a href="#dmvpn-ikev2-ipsec-configuration-see-ipsec-page-for-deep-dive" id="toc-dmvpn-ikev2-ipsec-configuration-see-ipsec-page-for-deep-dive" class="nav-link" data-scroll-target="#dmvpn-ikev2-ipsec-configuration-see-ipsec-page-for-deep-dive">DMVPN IKEv2 IPsec Configuration (See IPsec page for deep dive)</a></li>
+  <li><a href="#see-vrf-page-for-fvrf-config-details" id="toc-see-vrf-page-for-fvrf-config-details" class="nav-link" data-scroll-target="#see-vrf-page-for-fvrf-config-details">See VRF page for FVRF config details</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block">DMVPN</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="general-notes" class="level4">
+<h4 class="anchored" data-anchor-id="general-notes">General Notes</h4>
+<ul>
+<li>Used for large-scale, scalable deployment of mGRE tunnels in a hub-and-spoke topology</li>
+<li>Can establish connectivity through NAT, DHCP</li>
+<li>Utilizes <strong>NHRP</strong> (Next Hop Resolution Protocol)
+<ul>
+<li><strong>NHS</strong> (next-hop server) is statically defined on the spoke routers</li>
+<li>Each spoke router then dynamically registers with the hub(s) and forms tunnel to hub(s)</li>
+<li>Hub will populate NHRP cache with spoke information and allow communication between all nodes</li>
+<li>In phase 2, 3, hub will assist with spoke-to-spoke tunnels by sending resolution, redirect NHRP messages to spokes</li>
+</ul></li>
+<li>Common to advertise summary route from hub, keep all spokes as stubs</li>
+<li>Front door VRFs used to bypass recursive routing issues with overlay</li>
+</ul>
+<hr>
+</section>
+<section id="dmvpn-phases" class="level4">
+<h4 class="anchored" data-anchor-id="dmvpn-phases">DMVPN Phases</h4>
+<ul>
+<li><strong>Phase 1</strong>
+<ul>
+<li>All traffic between spokes in this design must transit the hub, no spoke-spoke tunnels are formed</li>
+</ul></li>
+<li><strong>Phase 2</strong>
+<ul>
+<li>Allows spoke-to-spoke traffic by making all tunnels (including spokes) multipoint</li>
+<li>This allows spokes to form tunnels directly to each other</li>
+<li>Must not have routing protocol use next-hop-self or the tunnels will not form</li>
+<li>Does <strong><em>NOT</em></strong> work with summarization - since the RIB will not have a route to the other spokes, all traffic will transit the hub</li>
+<li>If using OSPF, network type must be broadcast or non-broadcast to prevent changing next-hops
+<ul>
+<li>In this scenario the spokes must be set at priority 0 to prevent them becoming DRs - if spokes become DRs the network will not function as they cannot multicast between each other</li>
+</ul></li>
+</ul></li>
+<li><strong>Phase 3</strong>
+<ul>
+<li>Allows spoke-to-spoke traffic by using NHRP redirect and shortcut commands that allow NHRP to rewrite next hops in the RIB</li>
+<li>Main benefit over phase 2 is allowing summarization from hubs to spokes - spokes will still be able to form tunnels to each other in phase 3 even with a default route from the hub</li>
+</ul></li>
+</ul>
+<hr>
+</section>
+<section id="useful-show-commands" class="level4">
+<h4 class="anchored" data-anchor-id="useful-show-commands">Useful show commands</h4>
+<ul>
+<li><code>show dmvpn [detail]</code> - shows tunnel status, peers, up/down time, etc</li>
+<li><code>show ip nhrp [brief]</code> - shows NHRP cache, NHRP-specific details useful for phase 2, 3</li>
+<li><code>show ip route next-hop-override</code> - shows NH overrides for DMVPN phase 3</li>
+<li><code>show crypto isakmp sa; show crypto ike2 sa; show crypto ipsec sa</code> - for troubleshooting IPsec when used with DMVPN</li>
+</ul>
+<hr>
+</section>
+<section id="config" class="level4">
+<h4 class="anchored" data-anchor-id="config">Config</h4>
+<section id="dmvpn-phase-1-configuration-no-ipsec" class="level5">
+<h5 class="anchored" data-anchor-id="dmvpn-phase-1-configuration-no-ipsec">DMVPN Phase 1 Configuration (No IPsec)</h5>
+<p><strong>Hub Config</strong></p>
+<pre><code>! Essential
+interface Tunnel100
+ip address 192.168.100.11 255.255.255.0
+ip nhrp map multicast dynamic
+ip nhrp network-id 100
+tunnel source GigabitEthernet0/1
+tunnel mode gre multipoint
+
+! Discretionary
+bandwidth 4000
+ip mtu 1400
+ip tcp adjust-mss 1360
+ip nhrp authentication NHRPAUTH
+no ip split-horizon eigrp 100 ! necessary for EIGRP
+tunnel key 100 ! necessary in multi-hub designs</code></pre>
+<p><strong>Spoke Config</strong></p>
+<pre><code>interface Tunnel100
+ip address 192.168.100.31 255.255.255.0
+ip nhrp network-id 100
+ip nhrp nhs &lt;TunnelIP&gt; nbma &lt;PublicIP&gt; multicast
+tunnel source GigabitEthernet0/1
+tunnel destination &lt;PublicIP&gt;
+
+! Discretionary
+bandwidth 4000
+ip mtu 1400
+ip tcp adjust-mss 1360
+ip nhrp authentication NHRPAUTH
+tunnel key 100 ! necessary in multi-hub designs</code></pre>
+</section>
+<section id="dmvpn-phase-2-configuration-no-ipsec" class="level5">
+<h5 class="anchored" data-anchor-id="dmvpn-phase-2-configuration-no-ipsec">DMVPN Phase 2 Configuration (No IPsec)</h5>
+<p><strong>Hub Config</strong></p>
+<pre><code>!same as Phase 1, but including:
+
+no ip next-hop-self eigrp 100
+
+!so that hub doesn't list itself as NH for spokes</code></pre>
+<p><strong>Spoke Config</strong></p>
+<pre><code>!same as Phase 1, but including:
+
+tunnel mode gre multipoint
+
+!so that spokes can form direct tunnels</code></pre>
+</section>
+<section id="dmvpn-phase-3-configuration-no-ipsec" class="level5">
+<h5 class="anchored" data-anchor-id="dmvpn-phase-3-configuration-no-ipsec">DMVPN Phase 3 Configuration (No IPsec)</h5>
+<p><strong>Hub Config</strong></p>
+<pre><code>!same as Phase 1, but including:
+
+ip nhrp redirect
+
+!so that hub will forward redirect messages to spokes after initial traffic, 
+allowing spoke-to-spoke tunnels to form</code></pre>
+<p><strong>Spoke Config</strong></p>
+<pre><code>!same as Phase 1, but including:
+
+ip nhrp shortcut
+tunnel mode gre multipoint
+
+!to allow the spokes to install NHRP next hops into the routing table and form direct tunnels</code></pre>
+</section>
+<section id="dmvpn-ikev1-ipsec-configuration" class="level5">
+<h5 class="anchored" data-anchor-id="dmvpn-ikev1-ipsec-configuration">DMVPN IKEv1 IPsec Configuration</h5>
+<p><strong>VRFless</strong></p>
+<pre><code>crypto isakmp policy 10
+ encr aes 128
+ hash sha256
+ authentication pre-share
+ group 16
+!
+crypto isakmp key DMVPN_PSK address 0.0.0.0  
+!
+crypto ipsec transform-set ESP-AES-256-SHA-512 esp-aes 256 esp-sha512-hmac 
+ mode transport
+!
+crypto ipsec profile DMVPN_PROFILE
+ set transform-set ESP-AES-256-SHA-512
+!
+interface Tunnel0
+ tunnel protection ipsec profile DMVPN_PROFILE</code></pre>
+<p><strong>FVRF</strong></p>
+<pre><code>!same as above, but instead of crypto isakmp key:
+crypto keyring VRF_AWARE_PSK vrf UNDERLAY_TRANSPORT 
+  pre-shared-key address 0.0.0.0 0.0.0.0 key DMVPN_PSK</code></pre>
+</section>
+<section id="dmvpn-ikev2-ipsec-configuration-see-ipsec-page-for-deep-dive" class="level5">
+<h5 class="anchored" data-anchor-id="dmvpn-ikev2-ipsec-configuration-see-ipsec-page-for-deep-dive">DMVPN IKEv2 IPsec Configuration (See IPsec page for deep dive)</h5>
+<p><strong>VRFless</strong></p>
+<pre><code>crypto ikev2 keyring DMVPN-KEYRING 
+peer ANY
+address 0.0.0.0 0.0.0.0
+pre-shared-key CISCO456
+!
+crypto ikev2 profile DMVPN-IKE
+match identity remote address 0.0.0.0
+authentication remote pre-share
+authentication local pre-share
+keyring local DMVPN-KEYRING
+!
+crypto ipsec transform-set SET1 esp-aes 256 esp-sha-hmac
+mode transport
+!
+crypto ipsec profile DMVPN-IPSEC
+set transform-set SET1
+set ikev2-profile DMVPN-IKE
+!
+interface Tunnel0
+tunnel protection ipsec profile DMVPN-IPSEC</code></pre>
+<p><strong>FVRF</strong></p>
+<pre><code>!Same as above, but under crypto ikev2 profile:
+ match fvrf INET</code></pre>
+</section>
+<section id="see-vrf-page-for-fvrf-config-details" class="level5">
+<h5 class="anchored" data-anchor-id="see-vrf-page-for-fvrf-config-details">See VRF page for FVRF config details</h5>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./MPLS.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">MPLS</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./IPsec &amp; GRE VPN.html" class="pagination-link">
+        <span class="nav-page-text">IPsec &amp; GRE VPN</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-right">Published by Brendan Battersby, 2023</div>
+  </div>
+</footer>
+
+
+
+</body></html>

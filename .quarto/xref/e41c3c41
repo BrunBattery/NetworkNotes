@@ -1,1 +1,1 @@
-{"entries":[],"headings":["general-notes","key-features","bgp-attributes","weight","local-preference","as-path","origin-code","med"]}
+{"headings":["general-notes","features","summarization","route-reflection","confederation","communities","next-hop-modification","bgp-regexp","bgp-backdoor","conditional-advertising","conditional-route-injection","route-filtering","maximum-prefix","bgp-dampening","bgp-outbound-route-filtering","useful-debugshow-commands","bgp-attributes","weight","local-preference","as-path","origin-code","med","standard-bgp-config"],"entries":[]}

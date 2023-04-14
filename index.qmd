@@ -14,7 +14,7 @@ about:
 
 Hi all,
 
-I threw this page together to host some notes I've put together during my time studying for CCNP ENARSI. The navigation follows the flow of the exam blueprint. I hope you find something useful or informative here.
+I threw this page together to host some notes I've created during my time studying for CCNP ENARSI. The navigation follows the flow of the exam blueprint. I didn't cover all material with my notes as some of it was rote for me at this point; I tried to make notes on what I needed reinforced or might come back to later. I hope you find something useful or informative here.
 
 ## About me
 I'm a network engineer with a passion for learning based in beautiful British Columbia, Canada. Aside from tech, I love weightlifting, hiking and gaming. You can find me on my LinkedIn or on my YouTube channel below.

@@ -15,6 +15,7 @@ website:
     right: "Published by Brendan Battersby, 2023"
     left: ""
     
+    
   sidebar:
     background: dark
     logo: ""
@@ -27,7 +28,7 @@ website:
       - icon: youtube
         href: https://www.youtube.com/@brunbattery
         text: "YouTube"
-
+        
 
     style: "docked"
     search: true
@@ -35,21 +36,36 @@ website:
     contents:
       - href: index.qmd
         text: Welcome
-      - section: Routing Protocols
+      - section: L3 Technologies
         contents: 
+          - Redistribution.md
+          - PBR.md
+          - VRF.md
+          - EIGRP.md
+          - OSPF.md
           - BGP.md
         text: "---"
       - section: VPN & Encryption
         contents: 
-          - IPsec.md
+          - MPLS.md
+          - DMVPN.md
+          - IPsec & GRE VPN.md
         text: "---"
       - section: Infrastructure Security
         contents: 
-          - IPsec.md
+          - AAA.md
+          - uRPF.md
+          - CoPP.md
+          - IPv6 First Hop Security.md
         text: "---"
       - section: Infrastructure Services
         contents: 
-          - IPsec.md
+          - SNMP.md
+          - Syslog.md
+          - DHCP.md
+          - IP SLA & Tracking.md
+          - Netflow.md
+          
 
 format:
   html:
@@ -60,7 +76,7 @@ format:
     code-block-bg: true
     code-block-border-left: true
     code-copy: true
-
+    
 
 filters:
   - quarto

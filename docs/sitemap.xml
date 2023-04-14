@@ -14,7 +14,7 @@
   </url>
   <url>
     <loc>https://brunbattery.github.io/NetworkNotes/index.html</loc>
-    <lastmod>2023-03-29T02:13:59.975Z</lastmod>
+    <lastmod>2023-04-14T23:12:40.106Z</lastmod>
   </url>
   <url>
     <loc>https://brunbattery.github.io/NetworkNotes/IPsec.html</loc>
@@ -22,6 +22,82 @@
   </url>
   <url>
     <loc>https://brunbattery.github.io/NetworkNotes/BGP.html</loc>
-    <lastmod>2023-03-29T02:14:38.152Z</lastmod>
+    <lastmod>2023-04-14T23:12:23.815Z</lastmod>
+  </url>
+  <url>
+    <loc>https://brunbattery.github.io/NetworkNotes/BackupBGP.html</loc>
+    <lastmod>2023-04-14T03:33:30.590Z</lastmod>
+  </url>
+  <url>
+    <loc>https://brunbattery.github.io/NetworkNotes/BackupIPsec.html</loc>
+    <lastmod>2023-04-14T03:33:30.930Z</lastmod>
+  </url>
+  <url>
+    <loc>https://brunbattery.github.io/NetworkNotes/Netflow.html</loc>
+    <lastmod>2023-04-14T23:11:49.241Z</lastmod>
+  </url>
+  <url>
+    <loc>https://brunbattery.github.io/NetworkNotes/AAA.html</loc>
+    <lastmod>2023-04-14T23:11:45.798Z</lastmod>
+  </url>
+  <url>
+    <loc>https://brunbattery.github.io/NetworkNotes/CoPP.html</loc>
+    <lastmod>2023-04-14T23:11:46.534Z</lastmod>
+  </url>
+  <url>
+    <loc>https://brunbattery.github.io/NetworkNotes/DHCP.html</loc>
+    <lastmod>2023-04-14T23:11:46.840Z</lastmod>
+  </url>
+  <url>
+    <loc>https://brunbattery.github.io/NetworkNotes/DMVPN.html</loc>
+    <lastmod>2023-04-14T23:12:26.669Z</lastmod>
+  </url>
+  <url>
+    <loc>https://brunbattery.github.io/NetworkNotes/EIGRP.html</loc>
+    <lastmod>2023-04-14T23:12:21.760Z</lastmod>
+  </url>
+  <url>
+    <loc>https://brunbattery.github.io/NetworkNotes/IP SLA & Tracking.html</loc>
+    <lastmod>2023-04-14T23:11:47.781Z</lastmod>
+  </url>
+  <url>
+    <loc>https://brunbattery.github.io/NetworkNotes/IPsec & GRE VPN.html</loc>
+    <lastmod>2023-04-14T23:11:48.146Z</lastmod>
+  </url>
+  <url>
+    <loc>https://brunbattery.github.io/NetworkNotes/IPv6 First Hop Security.html</loc>
+    <lastmod>2023-04-14T23:11:48.594Z</lastmod>
+  </url>
+  <url>
+    <loc>https://brunbattery.github.io/NetworkNotes/MPLS.html</loc>
+    <lastmod>2023-04-14T23:12:29.503Z</lastmod>
+  </url>
+  <url>
+    <loc>https://brunbattery.github.io/NetworkNotes/OSPF.html</loc>
+    <lastmod>2023-04-14T23:12:14.766Z</lastmod>
+  </url>
+  <url>
+    <loc>https://brunbattery.github.io/NetworkNotes/PBR.html</loc>
+    <lastmod>2023-04-14T23:12:18.172Z</lastmod>
+  </url>
+  <url>
+    <loc>https://brunbattery.github.io/NetworkNotes/Redistribution.html</loc>
+    <lastmod>2023-04-14T23:12:17.173Z</lastmod>
+  </url>
+  <url>
+    <loc>https://brunbattery.github.io/NetworkNotes/SNMP.html</loc>
+    <lastmod>2023-04-14T23:11:50.297Z</lastmod>
+  </url>
+  <url>
+    <loc>https://brunbattery.github.io/NetworkNotes/Syslog.html</loc>
+    <lastmod>2023-04-14T23:11:50.597Z</lastmod>
+  </url>
+  <url>
+    <loc>https://brunbattery.github.io/NetworkNotes/uRPF.html</loc>
+    <lastmod>2023-04-14T23:11:50.905Z</lastmod>
+  </url>
+  <url>
+    <loc>https://brunbattery.github.io/NetworkNotes/VRF.html</loc>
+    <lastmod>2023-04-14T23:11:51.337Z</lastmod>
   </url>
 </urlset>

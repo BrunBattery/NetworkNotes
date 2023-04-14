@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.335">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Bren’s Networking Notes - OSPF</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./BGP.html" rel="next">
+<link href="./EIGRP.html" rel="prev">
+<link href="./images/logo.png" rel="icon" type="image/png">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar docked">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title">OSPF</h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-center sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Bren’s Networking Notes</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://www.linkedin.com/in/brendanbattersby/" title="LinkedIn" class="sidebar-tool px-1"><i class="bi bi-linkedin"></i></a>
+    <a href="https://www.youtube.com/@brunbattery" title="YouTube" class="sidebar-tool px-1"><i class="bi bi-youtube"></i></a>
+</div>
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">Welcome</a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">L3 Technologies</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Redistribution.html" class="sidebar-item-text sidebar-link">Redistribution</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./PBR.html" class="sidebar-item-text sidebar-link">PBR</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./VRF.html" class="sidebar-item-text sidebar-link">VRF</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./EIGRP.html" class="sidebar-item-text sidebar-link">EIGRP</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./OSPF.html" class="sidebar-item-text sidebar-link active">OSPF</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./BGP.html" class="sidebar-item-text sidebar-link">BGP</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="false">VPN &amp; Encryption</a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="false">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./MPLS.html" class="sidebar-item-text sidebar-link">MPLS</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./DMVPN.html" class="sidebar-item-text sidebar-link">DMVPN</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./IPsec &amp; GRE VPN.html" class="sidebar-item-text sidebar-link">IPsec &amp; GRE VPN</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="false">Infrastructure Security</a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="false">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./AAA.html" class="sidebar-item-text sidebar-link">AAA</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./uRPF.html" class="sidebar-item-text sidebar-link">uRPF</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./CoPP.html" class="sidebar-item-text sidebar-link">CoPP</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./IPv6 First Hop Security.html" class="sidebar-item-text sidebar-link">IPv6 First Hop Security</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="false">Infrastructure Services</a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="false">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./SNMP.html" class="sidebar-item-text sidebar-link">SNMP</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Syslog.html" class="sidebar-item-text sidebar-link">Syslog</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./DHCP.html" class="sidebar-item-text sidebar-link">DHCP</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./IP SLA &amp; Tracking.html" class="sidebar-item-text sidebar-link">IP SLA &amp; Tracking</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Netflow.html" class="sidebar-item-text sidebar-link">Netflow</a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#general-notes" id="toc-general-notes" class="nav-link active" data-scroll-target="#general-notes">General Notes</a></li>
+  <li><a href="#features" id="toc-features" class="nav-link" data-scroll-target="#features">Features</a>
+  <ul>
+  <li><a href="#authentication" id="toc-authentication" class="nav-link" data-scroll-target="#authentication">Authentication</a></li>
+  <li><a href="#summarization" id="toc-summarization" class="nav-link" data-scroll-target="#summarization">Summarization</a></li>
+  <li><a href="#route-filtering" id="toc-route-filtering" class="nav-link" data-scroll-target="#route-filtering">Route filtering</a></li>
+  <li><a href="#default-routing" id="toc-default-routing" class="nav-link" data-scroll-target="#default-routing">Default routing</a></li>
+  <li><a href="#stub-areas" id="toc-stub-areas" class="nav-link" data-scroll-target="#stub-areas">Stub areas</a></li>
+  <li><a href="#nssa" id="toc-nssa" class="nav-link" data-scroll-target="#nssa">NSSA</a></li>
+  <li><a href="#virtual-links" id="toc-virtual-links" class="nav-link" data-scroll-target="#virtual-links">Virtual links</a></li>
+  </ul></li>
+  <li><a href="#useful-debugsshow-commands" id="toc-useful-debugsshow-commands" class="nav-link" data-scroll-target="#useful-debugsshow-commands">Useful debugs/show commands</a></li>
+  <li><a href="#standard-ospf-config" id="toc-standard-ospf-config" class="nav-link" data-scroll-target="#standard-ospf-config">Standard OSPF Config</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block">OSPF</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="general-notes" class="level4">
+<h4 class="anchored" data-anchor-id="general-notes">General Notes</h4>
+<ul>
+<li>AD 110 for internal &amp; external</li>
+<li>Multicast <strong>224.0.0.5</strong> for all OSPF routers, <strong>224.0.0.6</strong> for all DR/BDRs, port number <strong>89</strong></li>
+<li>Advertises all routes to all nodes in area to build a topology before deciding best path</li>
+<li>Hello and hold timers must match for adjacency (unlike EIGRP)</li>
+<li>Adjacency formed, DBD (database descriptor) packet sent describing LSDB (link-state database)
+<ul>
+<li>Once other neighbor determines which LSAs they’re missing, LSR (link-state request) packet sent to ask for missing LSAs and sync database</li>
+<li>All OSPF routers in an area must share a common view of the database for OSPF to function</li>
+</ul></li>
+<li><strong>DR/BDR Election</strong>
+<ul>
+<li>No real prepending - the only way to ensure a node does not become DR is by removing it from the election</li>
+<li>This is done with <code>ip ospf priority 0</code> under the interface you don’t want to become DR/BDR</li>
+</ul></li>
+<li><strong>OSPF LSA Types</strong>
+<ul>
+<li><strong>Type 1</strong> - Router LSA
+<ul>
+<li>Generated by <strong>all OSPF routers</strong>, advertised intra-area, describes routers’ own interfaces, neighbors</li>
+</ul></li>
+<li><strong>Type 2</strong> - Network LSA
+<ul>
+<li>Generated by <strong>DRs</strong>, advertised intra-area, describes routers on its segment</li>
+</ul></li>
+<li><strong>Type 3</strong> - Summary LSA
+<ul>
+<li>Generated by <strong>ABRs</strong>, advertised inter-area to describe reachable networks to another area</li>
+</ul></li>
+<li><strong>Type 4</strong> - ASBR Summary LSA
+<ul>
+<li>Generated by <strong>ABRs</strong>, adverised inter-area to describe how to reach an <strong>ASBR</strong> advertising external networks</li>
+</ul></li>
+<li><strong>Type 5</strong> - External Summary LSA
+<ul>
+<li>Generated by <strong>ASBRs</strong>, advertised inter-area to describe external routes</li>
+</ul></li>
+<li><strong>Type 7</strong> - NSSA External Summary LSA
+<ul>
+<li>Same as above but generated in a NSSA where Type 5 LSAs are not allowed, reflooded as a Type 5 LSA if recieved by an <strong>ABR</strong></li>
+</ul></li>
+</ul></li>
+<li>Use <code>show ip ospf border-routers</code> to see both ABRs, ASBRs in the OSPF process</li>
+<li>For point-to-point links, add <code>ip ospf network point-to-point</code> under interface to save overhead on DR/BDR election
+<ul>
+<li>Null output after the slash in <strong>State</strong> column of <code>show ip ospf neighbor</code> indicates point-to-point link</li>
+</ul></li>
+<li>Loopbacks automatically advertised as /32s regardless of subnet mask
+<ul>
+<li>Can make the loopback point-to-point to advertise the full subnet</li>
+</ul></li>
+<li>By default all links greater than 100Mbps will have the same reference cost
+<ul>
+<li>To change this, change reference bandwidth under router ospf config with <code>auto-cost reference bandwidth &lt;value&gt;</code></li>
+<li>This should match on all devices in topology to prevent loops, but is not required for adjacency</li>
+</ul></li>
+<li>Metric can be modified directly with cost on interface (<code>ip ospf cost &lt;cost&gt;</code>), or indirectly by changing interface bandwidth</li>
+<li>Cost can also be configured per-neighbor under router ospf with <code>neighbor &lt;ip&gt; cost &lt;cost&gt;</code></li>
+<li>To form a neighborship, area, SN mask, stub flag, authentication and hello/dead timers must match</li>
+<li>Neighborships in a good state in <em>2-way</em> for drothers on broadcast segments or <em>Full</em> for all other links
+<ul>
+<li>All other states indicate an issue if they persist</li>
+<li>Stuck in ExStart, Exchange states usually indicates an MTU issue</li>
+</ul></li>
+</ul>
+<hr>
+</section>
+<section id="features" class="level4">
+<h4 class="anchored" data-anchor-id="features">Features</h4>
+<section id="authentication" class="level5">
+<h5 class="anchored" data-anchor-id="authentication">Authentication</h5>
+<ul>
+<li>Supports plaintext (pointless), MD5 &amp; HMAC-SHA auth</li>
+<li>HMAC-SHA configuration done with key chain in global config</li>
+<li>MD5 configuration done under interface or for an entire area under <code>router ospf</code></li>
+<li>Key-id numbers must match for successful auth</li>
+</ul>
+<pre><code>key chain OSPF_KEYS
+ key 1
+  key-string &lt;psk&gt;
+  cryptographic-algorithm hmac-sha-256
+!
+int gi0/0
+ip ospf authentication message-digest
+ip ospf message-digest-key 1 md5 &lt;psk&gt;
+!
+int gi0/1
+ip ospf authentication key-chain OSPF_KEYS</code></pre>
+</section>
+<section id="summarization" class="level5">
+<h5 class="anchored" data-anchor-id="summarization">Summarization</h5>
+<ul>
+<li>Possible only at ABRs, ASBRs</li>
+<li>To summarize LSA 3 as originated by ABR, use <code>area &lt;area#&gt; range &lt;ip &amp; mask&gt;</code>
+<ul>
+<li>The area used in the above command is the area the prefix is originated in - the summary will apply to all areas aside from this</li>
+<li>Can add <code>not-advertise</code> prefix to prevent advertising prefixes in range, form of route filtering ^ffa496</li>
+</ul></li>
+<li>To summarize LSA 5 at ASBR, use <code>summary-address &lt;ip &amp; mask&gt;</code></li>
+<li>Leak map can be used to leak longer mask prefixes included in summary
+<ul>
+<li><code>summary-address 0.0.0.0 0.0.0.0 leak-map &lt;route-map&gt;</code></li>
+</ul></li>
+<li>Null0 installed on router to match summary address for both LSA 3 and LSA 5 summaries</li>
+</ul>
+</section>
+<section id="route-filtering" class="level5">
+<h5 class="anchored" data-anchor-id="route-filtering">Route filtering</h5>
+<ul>
+<li>Inter-area filtering possible only at ABRs, filtering LSA3s</li>
+<li>Performed with <code>area &lt;area#&gt; filter-list prefix &lt;prefix-list&gt; [in|out]</code></li>
+<li>Inter-area filtering also possible with area range and <code>not-advertise</code> flag as described above</li>
+<li>Can also use distribute lists to filter inbound into the RIB, <strong>not the OSPF database</strong>
+<ul>
+<li>Can match on many values with route-maps, such as interface, ip address, ip next-hop, ip route-source, metric, route-type and tag</li>
+<li>For example:</li>
+</ul>
+<pre><code>access-list 3 permit 155.1.146.0
+access-list 4 permit 155.1.0.4
+!
+route-map DENY_VLAN146_FROM_R4 deny 10
+ match ip address 3
+ match ip next-hop 4
+!         
+route-map DENY_VLAN146_FROM_R4 permit 20
+!
+router ospf 1
+ distribute-list route-map DENY_VLAN146_FROM_R4 in</code></pre>
+<ul>
+<li>Note again distribute-lists <strong>ONLY AFFECTS LOCAL RIB</strong>, not OSPF database</li>
+<li>Easy to create traffic black holes if not careful with this feature</li>
+</ul></li>
+</ul>
+</section>
+<section id="default-routing" class="level5">
+<h5 class="anchored" data-anchor-id="default-routing">Default routing</h5>
+<ul>
+<li>Can be advertised with <code>default-information originate [always]</code></li>
+<li><code>always</code> flag allows advertisement even if default not in local route table</li>
+</ul>
+</section>
+<section id="stub-areas" class="level5">
+<h5 class="anchored" data-anchor-id="stub-areas">Stub areas</h5>
+<ul>
+<li>Two types, stubby and totally stubby
+<ul>
+<li>Stubby prevents advertisement of LSA 5 (Externals) into the area
+<ul>
+<li>Configured with <code>area &lt;area#&gt; stub</code> under router ospf</li>
+</ul></li>
+<li>Totally stubby prevents advertisements of LSA 3 (summary) &amp; LSA 5 into the area
+<ul>
+<li>Configured with <code>area &lt;area#&gt; stub no-summary</code> under router ospf
+<ul>
+<li>Only ABR needs <code>no-summary</code>, rest of area just stub</li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li>ABR advertises default route into stub area for reachability</li>
+<li>Must be configured on all routers in stub area</li>
+</ul>
+</section>
+<section id="nssa" class="level5">
+<h5 class="anchored" data-anchor-id="nssa">NSSA</h5>
+<ul>
+<li>Two types, NSSA and totally NSSA
+<ul>
+<li>NSSA prevents LSA5 advertisements but allows redistribution of externals
+<ul>
+<li>Configured with <code>area &lt;area#&gt; nssa</code> under router ospf</li>
+<li>Does not advertise default route from ABR by default</li>
+<li>Can use <code>area &lt;area#&gt; nssa default-information-originate</code> to advertise default</li>
+</ul></li>
+<li>Totally NSSA prevents LSA3, 5 but allows redistribution of externals
+<ul>
+<li>Configured with <code>area &lt;area#&gt; nssa no-summary</code> under router ospf</li>
+<li>Advertises default route from ABR</li>
+</ul></li>
+</ul></li>
+<li>Externals originated in these areas will be LSA7s instead of LSA5s, translated to LSA5 at ABR</li>
+</ul>
+</section>
+<section id="virtual-links" class="level5">
+<h5 class="anchored" data-anchor-id="virtual-links">Virtual links</h5>
+<ul>
+<li>Can be used to repair discontiguous networks or for traffic engineering</li>
+<li>Under OSPF, configure <code>area &lt;area#&gt; virtual-link &lt;neighbor RID&gt;</code> on both nodes</li>
+<li>The IP used is the <strong>router ID</strong>, not the address used for OSPF peering</li>
+<li>To keep virtual-links stable, it’s a good idea to manually define the router ID (as is best practice anyways)</li>
+<li><strong>See Redistribution page for details on that</strong></li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="useful-debugsshow-commands" class="level4">
+<h4 class="anchored" data-anchor-id="useful-debugsshow-commands">Useful debugs/show commands</h4>
+<ul>
+<li><code>show ip ospf interface brief</code> - Displays interfaces participating in OSPF, areas, cost, etc</li>
+<li><code>show ip ospf neighbors</code> - Displays neighbors and neighbor states</li>
+<li><code>show ip ospf database</code> - Displays OSPF database information</li>
+<li><code>show ip ospf database router self-originate</code> - Useful to see routes advertised by local device</li>
+<li><code>show ip ospf</code> - Displays detailed information about OSPF protocols, timers, metric reference values, etc</li>
+<li><code>show ip protocols</code> - Shows various information about active routing protocols</li>
+<li><code>debug ip ospf adj</code> - OSPF adjacency formation</li>
+<li><code>debug ip ospf packet</code> - All OSPF packets</li>
+</ul>
+<hr>
+</section>
+<section id="standard-ospf-config" class="level4">
+<h4 class="anchored" data-anchor-id="standard-ospf-config">Standard OSPF Config</h4>
+<pre><code>int gi0
+ip ospf network point-to-point
+ip ospf 1 area 0
+
+router ospf 1
+ router-id 1.1.1.1
+ passive-interface default
+ no passive-interface gi0
+ network 150.1.5.0 0.0.0.255 area 0</code></pre>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./EIGRP.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">EIGRP</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./BGP.html" class="pagination-link">
+        <span class="nav-page-text">BGP</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-right">Published by Brendan Battersby, 2023</div>
+  </div>
+</footer>
+
+
+
+</body></html>
