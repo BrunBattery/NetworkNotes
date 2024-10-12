@@ -253,7 +253,9 @@ router bgp 100
  neighbor 155.1.45.5 capability orf prefix-list both
  neighbor 155.1.45.5 prefix-list ORF in
 ```
-- **See Redistribution page for details on that**
+
+##### Redistribution
+- See [Redistribution](Redistribution.md) page for details on that
 
 ---
 

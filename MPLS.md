@@ -33,7 +33,6 @@ editor_options:
 	- Protocol identifier (**PID**) in layer-2 frame specifies that an MPLS packet will follow
 	- Bottom-of-stack bit in shim header indicates whether additional labels follow
 	- Nesting of LDP labels used for MPLS VPN, MPLS TE (Traffic Engineering)
-- [**RDs and RTs explained here**](https://packetlife.net/blog/2013/jun/10/route-distinguishers-and-route-targets/)
 
 ---
 
@@ -183,8 +182,8 @@ ip nat inside source list VPN_LOOPBACKS interface GigabitEthernet0/0 vrf VPN_A o
 ```
 
 ##### MPLS Config Explanation
-- `mpls ip` - used to enable LDP on an interface or globally on the router
-- `mpls ldp router-id Loopback0 force` - used to force the router-id used for LDP
+- ```mpls ip``` - used to enable LDP on an interface or globally on the router
+- ```mpls ldp router-id Loopback0 force``` - used to force the router-id used for LDP
 - `router ospf 1; mpls ldp autoconfig` - used to automatically enable LDP on OSPF interfaces
 - `mpls ldp discovery transport-address interface` - used to enable TCP connection over the physical interface IP instead of router-id
 - `mpls ldp neighbor <IP> password <password>; mpls ldp password required` - configuring a password and making the password a requirement

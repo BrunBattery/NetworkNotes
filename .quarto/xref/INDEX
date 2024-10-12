@@ -85,5 +85,17 @@
   },
   "docs/DHCP.MD": {
     "DHCP.html": "c78e97c0"
+  },
+  "Azure Basics (AZ-900).md": {
+    "Azure Basics (AZ-900).html": "51824a03"
+  },
+  "Azure Networking (AZ-700).md": {
+    "Azure Networking (AZ-700).html": "8d842094"
+  },
+  "Fitness & Lifestyle General Notes.md": {
+    "Fitness & Lifestyle General Notes.html": "97f415a9"
+  },
+  "Palo Alto Concepts & Links.md": {
+    "Palo Alto Concepts & Links.html": "b66ae12a"
   }
 }

@@ -77,7 +77,7 @@ ip ospf authentication key-chain OSPF_KEYS
 - Possible only at ABRs, ASBRs
 - To summarize LSA 3 as originated by ABR, use `area <area#> range <ip & mask>`
 	- The area used in the above command is the area the prefix is originated in - the summary will apply to all areas aside from this
-	- Can add `not-advertise` prefix to prevent advertising prefixes in range, form of route filtering ^ffa496
+	- Can add `not-advertise` prefix to prevent advertising prefixes in range, form of route filtering
 - To summarize LSA 5 at ASBR, use `summary-address <ip & mask>`
 - Leak map can be used to leak longer mask prefixes included in summary
 	- `summary-address 0.0.0.0 0.0.0.0 leak-map <route-map>`
@@ -90,19 +90,19 @@ ip ospf authentication key-chain OSPF_KEYS
 - Can also use distribute lists to filter inbound into the RIB, **not the OSPF database**
 	- Can match on many values with route-maps, such as interface, ip address, ip next-hop, ip route-source, metric, route-type and tag
 	- For example: 
-```
-access-list 3 permit 155.1.146.0
-access-list 4 permit 155.1.0.4
-!
-route-map DENY_VLAN146_FROM_R4 deny 10
- match ip address 3
- match ip next-hop 4
-!         
-route-map DENY_VLAN146_FROM_R4 permit 20
-!
-router ospf 1
- distribute-list route-map DENY_VLAN146_FROM_R4 in
-```
+	```
+	access-list 3 permit 155.1.146.0
+	access-list 4 permit 155.1.0.4
+	!
+	route-map DENY_VLAN146_FROM_R4 deny 10
+	 match ip address 3
+	 match ip next-hop 4
+	!         
+	route-map DENY_VLAN146_FROM_R4 permit 20
+	!
+	router ospf 1
+	 distribute-list route-map DENY_VLAN146_FROM_R4 in
+	```
 	- Note again distribute-lists **ONLY AFFECTS LOCAL RIB**, not OSPF database
 	- Easy to create traffic black holes if not careful with this feature
 
@@ -135,8 +135,11 @@ router ospf 1
 - Can be used to repair discontiguous networks or for traffic engineering
 - Under OSPF, configure `area <area#> virtual-link <neighbor RID>` on both nodes
 - The IP used is the **router ID**, not the address used for OSPF peering
-- To keep virtual-links stable, it's a good idea to manually define the router ID (as is best practice anyways) 
-- **See Redistribution page for details on that**
+- To keep virtual-links stable, it's a good idea to manually define the router ID (as is best practice anyways)
+
+##### Redistribution
+- See [Redistribution](Redistribution.md) page for details on that
+
 ---
 
 #### Useful debugs/show commands

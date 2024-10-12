@@ -18,7 +18,7 @@ editor_options:
 - Can specify multiple next-hops - when done the first will be used if the next-hop is adjacent, otherwise it will use the second, third, etc
 - If you want to use a non-adjacent route, you must use the `recursive` flag when configuring the route-map `set` statement
 - Using the `default` flag will cause the next-hop value to be set only for routes not within the router's RIB
-- Can also combine PBR with [[IP SLA & Tracking]] to ensure reachability of next-hops
+- Can also combine PBR with [IP SLA & Tracking](IP SLA & Tracking.md) to ensure reachability of next-hops
 - **Local PBR**
 	- This is a PBR for traffic sourcing from the router (normally not subject to policy routing)
 	- Configuration is the same as a typical PBR but applied with `ip local policy route-map <rm-name>`

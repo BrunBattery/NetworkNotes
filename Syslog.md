@@ -15,7 +15,8 @@ editor_options:
 - Used to manage system logs and alerts
 - Can be stored locally, sent to vty, console lines, or forwarded to an external syslog server
 - **Logging levels**
-	- For the logging trap command, these are the levels & their associated numbers
+	- For the logging trap command, these are the levels & their associated numbers:
+
 		Emergency: **0**  
 		Alert: **1**  
 		Critical: **2**  
@@ -38,7 +39,7 @@ logging buffered 90000 - ! Increase local logging buffer size
 logging <logging-server>
 service timestamps debug datetime localtime show-timezone msec
 service timestamps log datetime localtime show-timezone msec
-logging trap warning ! includes this level of message and all below
+logging trap warning ! includes this level of message and all lower levels (warning to emergency)
 logging source-interface loopback0
 exit
 !

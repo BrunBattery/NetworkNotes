@@ -11,8 +11,8 @@ website:
   favicon: images/logo.png
   
   page-footer:
-    background: primary
-    right: "Published by Brendan Battersby, 2023"
+    background: "#29393d"
+    right: "Published by Brendan Battersby, 2024"
     left: ""
     
     
@@ -32,51 +32,58 @@ website:
 
     style: "docked"
     search: true
-    collapse-level: 1
+    collapse-level: 2
     contents:
       - href: index.qmd
         text: Welcome
-      - section: L3 Technologies
+      - section: CCNP
+        contents:
+          - section: L3 Technologies
+            contents: 
+              - Redistribution.md
+              - PBR.md
+              - VRF.md
+              - EIGRP.md
+              - OSPF.md
+              - BGP.md
+          - section: VPN & Encryption
+            contents: 
+              - MPLS.md
+              - DMVPN.md
+              - IPsec & GRE VPN.md
+          - section: Infrastructure Security
+            contents: 
+              - AAA.md
+              - uRPF.md
+              - CoPP.md
+              - IPv6 First Hop Security.md
+          - section: Infrastructure Services
+            contents: 
+              - SNMP.md
+              - Syslog.md
+              - DHCP.md
+              - IP SLA & Tracking.md
+              - Netflow.md
+      - section: Azure
         contents: 
-          - Redistribution.md
-          - PBR.md
-          - VRF.md
-          - EIGRP.md
-          - OSPF.md
-          - BGP.md
-        text: "---"
-      - section: VPN & Encryption
+          - Azure Basics (AZ-900).md
+          - Azure Networking (AZ-700).md
+      - section: Palo Alto
         contents: 
-          - MPLS.md
-          - DMVPN.md
-          - IPsec & GRE VPN.md
-        text: "---"
-      - section: Infrastructure Security
+          - Palo Alto Concepts & Links.md
+      - section: Fitness & Lifestyle
         contents: 
-          - AAA.md
-          - uRPF.md
-          - CoPP.md
-          - IPv6 First Hop Security.md
-        text: "---"
-      - section: Infrastructure Services
-        contents: 
-          - SNMP.md
-          - Syslog.md
-          - DHCP.md
-          - IP SLA & Tracking.md
-          - Netflow.md
+          - Fitness & Lifestyle General Notes.md
           
-
+          
 format:
   html:
-    theme: solar
+    theme: custom.scss
     fontsize: 1.1em
-    monofontcolor: rgb(185, 143, 13)
-    monobackgroundcolor: rgb (185, 143, 13)
-    code-block-bg: true
-    code-block-border-left: true
-    code-copy: true
-    
+    monocolor: "#2a9891"
+    monobackgroundcolor: "#343a40"
+    code-block-background: "#343a40"
+    code-block-border-left: "#72c9d1"
 
 filters:
   - quarto

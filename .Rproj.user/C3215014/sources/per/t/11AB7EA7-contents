@@ -1,0 +1,89 @@
+project:
+  type: website
+  output-dir: docs
+  
+  
+website: 
+  page-navigation: true
+  reader-mode: false
+  title: "Bren's Networking Notes" 
+  site-url: "https://brunbattery.github.io/NetworkNotes/"
+  favicon: images/logo.png
+  
+  page-footer:
+    background: "#29393d"
+    right: "Published by Brendan Battersby, 2024"
+    left: ""
+    
+    
+  sidebar:
+    background: dark
+    logo: ""
+    pinned: true
+    align: center
+    tools: 
+      - icon: linkedin
+        href: https://www.linkedin.com/in/brendanbattersby/
+        text: "LinkedIn"
+      - icon: youtube
+        href: https://www.youtube.com/@brunbattery
+        text: "YouTube"
+        
+
+    style: "docked"
+    search: true
+    collapse-level: 2
+    contents:
+      - href: index.qmd
+        text: Welcome
+      - section: CCNP
+        contents:
+          - section: L3 Technologies
+            contents: 
+              - Redistribution.md
+              - PBR.md
+              - VRF.md
+              - EIGRP.md
+              - OSPF.md
+              - BGP.md
+          - section: VPN & Encryption
+            contents: 
+              - MPLS.md
+              - DMVPN.md
+              - IPsec & GRE VPN.md
+          - section: Infrastructure Security
+            contents: 
+              - AAA.md
+              - uRPF.md
+              - CoPP.md
+              - IPv6 First Hop Security.md
+          - section: Infrastructure Services
+            contents: 
+              - SNMP.md
+              - Syslog.md
+              - DHCP.md
+              - IP SLA & Tracking.md
+              - Netflow.md
+      - section: Azure
+        contents: 
+          - Azure Basics (AZ-900).md
+          - Azure Networking (AZ-700).md
+      - section: Palo Alto
+        contents: 
+          - Palo Alto Concepts & Links.md
+      - section: Fitness & Lifestyle
+        contents: 
+          - Fitness & Lifestyle General Notes.md
+          
+          
+format:
+  html:
+    theme: custom.scss
+    fontsize: 1.1em
+    monocolor: "#2a9891"
+    monobackgroundcolor: "#343a40"
+    code-block-background: "#343a40"
+    code-block-border-left: "#72c9d1"
+
+filters:
+  - quarto

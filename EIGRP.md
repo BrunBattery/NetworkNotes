@@ -113,7 +113,8 @@ router eigrp 100
 - Configured under topology base with:
 	- `offset-list <access-list> in <metric> <interface>`
 
-- **See Redistribution page for details on that**
+##### Redistribution
+- See [Redistribution](Redistribution.md) page for details on that
 
 ---
 

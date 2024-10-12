@@ -18,7 +18,7 @@ editor_options:
 - With IPv6, both **stateful** and **stateless** DHCP exist
 	- **Stateful** advertises IPv6 addresses, prefixes, gateways etc like a typical DHCP server in v4
 	- **Stateless** allows hosts to configure their own address, gateway etc locally with SLAAC and only advertises other information such as DNS, TFTP server, etc
-	- **Stateles**s DHCP is configured with `ipv6 nd other-config-flag` under interface on segment that will advertise the information
+	- **Stateless** DHCP is configured with `ipv6 nd other-config-flag` under interface on segment that will advertise the information
 - **DORA**
 	- **Discover** - Broadcast by client discover DHCP server on segment using port **67**
 	- **Offer** - Server responds offering IP, SN Mask, gateway, DNS using port **68**
@@ -42,7 +42,7 @@ editor_options:
 ---
 
 #### Standard DHCP Config
-**IPV4**
+**IPv4**
 ```
 ip dhcp excluded-address 10.8.8.1 10.8.8.10
 !

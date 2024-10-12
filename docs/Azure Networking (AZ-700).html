@@ -1,0 +1,1219 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Azure Networking (AZ-700) – Bren’s Networking Notes</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./Palo Alto Concepts &amp; Links.html" rel="next">
+<link href="./Azure Basics (AZ-900).html" rel="prev">
+<link href="./images/logo.png" rel="icon" type="image/png">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar docked">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Azure Basics (AZ-900).html">Azure</a></li><li class="breadcrumb-item"><a href="./Azure Networking (AZ-700).html">Azure Networking (AZ-700)</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-center sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Bren’s Networking Notes</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://www.linkedin.com/in/brendanbattersby/" title="LinkedIn" class="quarto-navigation-tool px-1" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+    <a href="https://www.youtube.com/@brunbattery" title="YouTube" class="quarto-navigation-tool px-1" aria-label="YouTube"><i class="bi bi-youtube"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Welcome</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">CCNP</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+ <span class="menu-text">L3 Technologies</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Redistribution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Redistribution</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./PBR.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">PBR</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./VRF.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">VRF</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./EIGRP.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">EIGRP</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./OSPF.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">OSPF</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./BGP.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">BGP</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
+ <span class="menu-text">VPN &amp; Encryption</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./MPLS.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">MPLS</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./DMVPN.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">DMVPN</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./IPsec &amp; GRE VPN.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">IPsec &amp; GRE VPN</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
+ <span class="menu-text">Infrastructure Security</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./AAA.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">AAA</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./uRPF.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">uRPF</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./CoPP.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">CoPP</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./IPv6 First Hop Security.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">IPv6 First Hop Security</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false">
+ <span class="menu-text">Infrastructure Services</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./SNMP.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">SNMP</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Syslog.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Syslog</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./DHCP.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">DHCP</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./IP SLA &amp; Tracking.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">IP SLA &amp; Tracking</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Netflow.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Netflow</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">Azure</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Azure Basics (AZ-900).html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Azure Basics (AZ-900)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Azure Networking (AZ-700).html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Azure Networking (AZ-700)</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
+ <span class="menu-text">Palo Alto</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Palo Alto Concepts &amp; Links.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Palo Alto Notes</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true">
+ <span class="menu-text">Fitness &amp; Lifestyle</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Fitness &amp; Lifestyle General Notes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Fitness &amp; Lifestyle Notes</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#azure-networking-fundamentals" id="toc-azure-networking-fundamentals" class="nav-link active" data-scroll-target="#azure-networking-fundamentals">Azure Networking Fundamentals</a>
+  <ul>
+  <li><a href="#virtual-network-vnet" id="toc-virtual-network-vnet" class="nav-link" data-scroll-target="#virtual-network-vnet">Virtual Network (VNET)</a></li>
+  <li><a href="#public-ips" id="toc-public-ips" class="nav-link" data-scroll-target="#public-ips">Public IPs</a></li>
+  <li><a href="#azure-routing" id="toc-azure-routing" class="nav-link" data-scroll-target="#azure-routing">Azure Routing</a></li>
+  <li><a href="#route-tables" id="toc-route-tables" class="nav-link" data-scroll-target="#route-tables">Route tables</a></li>
+  <li><a href="#public-private-endpoints" id="toc-public-private-endpoints" class="nav-link" data-scroll-target="#public-private-endpoints">Public &amp; Private Endpoints</a></li>
+  <li><a href="#network-watcher" id="toc-network-watcher" class="nav-link" data-scroll-target="#network-watcher">Network Watcher</a></li>
+  <li><a href="#subnet-delegation" id="toc-subnet-delegation" class="nav-link" data-scroll-target="#subnet-delegation">Subnet Delegation</a></li>
+  <li><a href="#azure-dns" id="toc-azure-dns" class="nav-link" data-scroll-target="#azure-dns">Azure DNS</a></li>
+  </ul></li>
+  <li><a href="#azure-network-services" id="toc-azure-network-services" class="nav-link" data-scroll-target="#azure-network-services">Azure Network Services</a>
+  <ul>
+  <li><a href="#nat-gateway" id="toc-nat-gateway" class="nav-link" data-scroll-target="#nat-gateway">NAT Gateway</a></li>
+  <li><a href="#azure-virtual-wan" id="toc-azure-virtual-wan" class="nav-link" data-scroll-target="#azure-virtual-wan">Azure Virtual WAN</a></li>
+  </ul></li>
+  <li><a href="#azure-vpnson-prem-connectivity" id="toc-azure-vpnson-prem-connectivity" class="nav-link" data-scroll-target="#azure-vpnson-prem-connectivity">Azure VPNs/On-Prem Connectivity</a>
+  <ul>
+  <li><a href="#vnet-gateway-virtual-network-gatewayvpn-gateway" id="toc-vnet-gateway-virtual-network-gatewayvpn-gateway" class="nav-link" data-scroll-target="#vnet-gateway-virtual-network-gatewayvpn-gateway">VNET Gateway (Virtual Network Gateway/VPN Gateway)</a></li>
+  <li><a href="#point-to-site-vpn-client-vpn" id="toc-point-to-site-vpn-client-vpn" class="nav-link" data-scroll-target="#point-to-site-vpn-client-vpn">Point to Site VPN (Client VPN)</a></li>
+  <li><a href="#expressroute" id="toc-expressroute" class="nav-link" data-scroll-target="#expressroute">ExpressRoute</a></li>
+  </ul></li>
+  <li><a href="#azure-network-security" id="toc-azure-network-security" class="nav-link" data-scroll-target="#azure-network-security">Azure Network Security</a>
+  <ul>
+  <li><a href="#azure-firewall" id="toc-azure-firewall" class="nav-link" data-scroll-target="#azure-firewall">Azure Firewall</a></li>
+  <li><a href="#web-application-firewall" id="toc-web-application-firewall" class="nav-link" data-scroll-target="#web-application-firewall">Web Application Firewall</a></li>
+  <li><a href="#network-security-groups" id="toc-network-security-groups" class="nav-link" data-scroll-target="#network-security-groups">Network Security Groups</a></li>
+  </ul></li>
+  <li><a href="#azure-load-balancing-services" id="toc-azure-load-balancing-services" class="nav-link" data-scroll-target="#azure-load-balancing-services">Azure Load Balancing Services</a>
+  <ul>
+  <li><a href="#load-balancer" id="toc-load-balancer" class="nav-link" data-scroll-target="#load-balancer">Load Balancer</a></li>
+  <li><a href="#application-gateway" id="toc-application-gateway" class="nav-link" data-scroll-target="#application-gateway">Application Gateway</a></li>
+  <li><a href="#azure-front-door" id="toc-azure-front-door" class="nav-link" data-scroll-target="#azure-front-door">Azure Front Door</a></li>
+  <li><a href="#azure-traffic-manager" id="toc-azure-traffic-manager" class="nav-link" data-scroll-target="#azure-traffic-manager">Azure Traffic Manager</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Azure Basics (AZ-900).html">Azure</a></li><li class="breadcrumb-item"><a href="./Azure Networking (AZ-700).html">Azure Networking (AZ-700)</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">Azure Networking (AZ-700)</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="azure-networking-fundamentals" class="level4">
+<h4 class="anchored" data-anchor-id="azure-networking-fundamentals">Azure Networking Fundamentals</h4>
+<section id="virtual-network-vnet" class="level5">
+<h5 class="anchored" data-anchor-id="virtual-network-vnet">Virtual Network (VNET)</h5>
+<ul>
+<li>Supernet of network subnets existing in one region only - can be IPv4 RFC1918 or IPv6</li>
+<li>By breaking VNET into subnets, you can assign different routing tables and network security groups to them</li>
+<li>Azure steals 5 IPs from all subnets (Network, Broadcast, Gateway and 2 for DNS)
+<ul>
+<li>In a /24 these are Network: <strong>.0</strong>, Gateway: <strong>.1</strong>, Azure DNS: <strong>.2-3,</strong> Broadcast: <strong>.255</strong></li>
+</ul></li>
+<li>Public IPs are a separate resource that can be assigned to particular vNICs</li>
+<li>VNet peering allows communication of different VNets over the Azure backbone
+<ul>
+<li>Can also peer between VNETs with VPN network gateway, however this traffic is sent across public internet instead of Microsoft backbone, costs more, has bandwidth limitations and higher hop count</li>
+<li>The benefit to using VPN network gateways is that they allow for encrypted traffic (VNET peering is unencrypted) and can also peer to on-prem networks</li>
+<li>If desired, VNET peers can only allow traffic one direction (only from remote/only to remote VNET)</li>
+<li>IP space must not overlap</li>
+<li>Unless you use NVAs to broker the connections, VNET peerings do not ‘daisy chain’ through each other - these peerings are non-transitive
+<ul>
+<li>e.g.&nbsp;if VNET1 &amp; VNET 3 are peered to VNET2, they can talk to VNET2 but not each other</li>
+</ul></li>
+<li>The other exception to this (aside from NVAs) is when connecting to on-prem - this traffic can ‘daisy chain’ through the VNET connecting to on-prem <em>if</em> if you configure the entry VNET to ‘<strong>AllowGatewayTransit/Use this virtual network’s gateway or Route Server</strong>’ and the remote VNET to ‘<strong>UseRemoteGateways/Use the remote virtual network’s gateway or Route Server</strong>’ for the peering to the entry VNET</li>
+<li>Since network peering is non-transitive, <strong>hub &amp; spoke</strong> topologies are common in Azure network architecture</li>
+<li>The hub peers to all spoke VNETs and routes traffic through a central NVA/Azure firewall - this is known as ‘<strong>service chaining</strong>’</li>
+<li>This hub &amp; spoke setup is enabled by custom UDR routing traffic to the central NVA/Firewall</li>
+</ul></li>
+<li>To connect Azure to on-prem, can use S2S VPN (policy-based or route-based VPN) with Azure VPN gateway or to another virtual networking appliance (CSR, etc). Can also use Azure Express Route.</li>
+</ul>
+</section>
+<section id="public-ips" class="level5">
+<h5 class="anchored" data-anchor-id="public-ips">Public IPs</h5>
+<ul>
+<li>Basic SKU allows all traffic by default and can be dynamically or statically assigned, requires NSG to lock down traffic</li>
+<li>Standard SKU is always static and inaccessible by default, requires NSG to allow access and allows zone redundancy</li>
+<li>Public IPs in Azure are always associated with a private IP</li>
+</ul>
+</section>
+<section id="azure-routing" class="level5">
+<h5 class="anchored" data-anchor-id="azure-routing">Azure Routing</h5>
+<ul>
+<li>Software-defined routing - L2 functionally doesn’t exist when considering Azure routing as all traffic goes through Azure as the default gateway, not within the same subnet</li>
+<li>Azure automatically populates route tables with system routes to the internet and to the local VNET</li>
+<li>When forwarding traffic through an NVA (<strong>Network Virtual Appliance</strong>), such as a VM firewall or load balancer, the ‘<em>IP Forwarding</em>’ checkbox must be enabled on the NIC of the VM. If this is not checked, it will not be able to forward traffic from other devices
+<ul>
+<li>Another caveat with NVAs - because of the way NICs work in a software-defined network like Azure, adding multiple NICs does not increase performance and can even break symmetric routing</li>
+<li>Most reference designs for deploying NVAs will only include 1 NIC</li>
+</ul></li>
+<li><strong>UDR</strong> - User-defined routes, made by modifying the route table(s) in Azure</li>
+<li>Azure route hop types:
+<ul>
+<li><strong>Virtual network</strong> - Routes between subnets/hosts within a VNET</li>
+<li><strong>Internet</strong> - Routes to the internet</li>
+<li><strong>None</strong> - Null0, dropped traffic</li>
+<li><strong>Virtual network gateway</strong> - Used for ExpressRoute and VPNs</li>
+<li><strong>Virtual appliance</strong> - Route to an Azure VM used as a network appliance</li>
+</ul></li>
+<li>For AD, User defined route is preferred, followed by BGP route and lastly by system/default routes</li>
+<li>‘Effective routes’ for each VM NIC an easy way to see what routes are actually being used by an appliance</li>
+<li>To force internet traffic to egress over a tunnel to an on-prem location (e.g.&nbsp;to transit an on-prem firewall) a Powershell command is required, <code>Set-AzVirtualNetworkGatewayDefaultSite</code>. For traffic going through an Azure NVA to the internet, this is not required - this only comes up if internet traffic is forced over a VPN tunnel.</li>
+<li><strong>Route Server</strong> - Azure routing resource that simplifies routing between multiple NVAs, useful in more complex routing scenarios
+<ul>
+<li>Communicates with NVAs over BGP and updates Azure route table, prevents maintenance of many different UDRs to NVAs and can allow connectivity to multiple NVAs without LBs via ECMP</li>
+<li>One caveat to this is that when using NVAs with a route server, even if you install a specific route for a subnet within a VNET through BGP, Azure will default to sending this traffic directly <em>within</em> the VNET. To force this traffic through the firewall you would need a UDR to give it higher AD and force it to be chosen as the preferred route.</li>
+</ul></li>
+</ul>
+</section>
+<section id="route-tables" class="level5">
+<h5 class="anchored" data-anchor-id="route-tables">Route tables</h5>
+<ul>
+<li>Azure resource for specifying routes</li>
+<li>By default has some Azure-populated routes to local subnets, the internet for basic connectivity that can be overridden by user routes</li>
+</ul>
+</section>
+<section id="public-private-endpoints" class="level5">
+<h5 class="anchored" data-anchor-id="public-private-endpoints">Public &amp; Private Endpoints</h5>
+<ul>
+<li>Azure PaaS services by default route over public internet</li>
+<li>Service endpoints allow connections to Azure PaaS services over Microsoft’s private backbone</li>
+<li>Private endpoints &amp; private links work the same, except they also allow access over private connections to on-prem networks, allowing you to completely disable public IPs if desired, and allows you to only connect to a specific instance of a service</li>
+<li>Private endpoints/links are generally a better solution if private access is required to resources</li>
+<li>They work by changing the resolution of a service to a CNAME pointing to ‘&lt;service-name&gt;.<strong>privatelink</strong>.windows.net’ from the default ‘&lt;service-name&gt;.windows.net’</li>
+<li>This ‘privatelink’ record then resolves to the private IP - DNS resolution required for private endpoints to function</li>
+<li>Private endpoints are currently unaffected by NSGs (they ignore NSG rules)</li>
+<li>Private endpoints are the attachment points into the VNET &amp; subnet, whereas private links are the attachment points into a specific resource (Storage account, for example) - both are required for private connectivity to a resource</li>
+<li>One private link can connect to multiple private endpoints</li>
+<li>Private link <strong>service</strong> (PLS) is different than just a private link itself - this is used for private connectivity to resources in a VNET you do not have access to through peering or site-to-site VPN
+<ul>
+<li>This can be useful when connecting to vendor resources</li>
+<li>Must use a standard load balancer - cannot directly attach to other resources than an Azure LB</li>
+<li>PLS uses its own subnet to source NAT traffic before sending to the front end of the LB</li>
+</ul></li>
+</ul>
+</section>
+<section id="network-watcher" class="level5">
+<h5 class="anchored" data-anchor-id="network-watcher">Network Watcher</h5>
+<ul>
+<li>An Azure feature that allows monitoring and diagnostics of Azure networks, connections to on-prem networks, and displays diagrams of connectivity</li>
+<li>Allows testing of IP flows, viewing next-hops, displays effective security rules, allows packet captures and can be used to troubleshoot connections and VPN gateways</li>
+</ul>
+</section>
+<section id="subnet-delegation" class="level5">
+<h5 class="anchored" data-anchor-id="subnet-delegation">Subnet Delegation</h5>
+<ul>
+<li>Some services can have subnets delegated to them directly, effectively ‘injecting’ a managed PaaS service into your VNET</li>
+<li>These may require specific subnet names to function</li>
+<li>They also may or may not allow you to manually use the subnet for other VMs</li>
+</ul>
+</section>
+<section id="azure-dns" class="level5">
+<h5 class="anchored" data-anchor-id="azure-dns">Azure DNS</h5>
+<ul>
+<li><strong>Azure-Provided Default</strong>
+<ul>
+<li>By default, all private DNS in Azure handled by Azure-provided nameservers automatically</li>
+<li>Azure ‘wireserver’ (<strong>168.63.129.16</strong>) handles default name resolution for all VMs</li>
+<li>Default private DNS always ends with <em>.internal.cloudapp.net</em> and are scoped to a single VNET</li>
+<li>Only accepts queries from Azure resources
+<ul>
+<li>To access from on-prem, create DNS server to act as resolver in Azure and conditionally forward to that which can then forward to the wireserver <em>or</em> use Azure DNS Private Resolver</li>
+</ul></li>
+</ul></li>
+<li><strong>Azure Private DNS</strong>
+<ul>
+<li>Allows custom DNS suffixes, manual DNS record creation and can resolve across VNETs</li>
+<li>Global - any region, subscription, VNET, tenant can use a private DNS zone (with right permissions)</li>
+<li>Can only resolve Azure NS lookups however, cannot resolve on-prem queries without DNS resolver in Azure</li>
+<li>When overwriting a record with a manual entry, the automatic DNS record is removed</li>
+<li>A VNET can only automatically register to one private DNS zone, but a single private DNS zone can be used by many different VNETs for registration</li>
+<li>One VNET can use multiple DNS zones for resolution, just not for registration</li>
+</ul></li>
+</ul>
+<p><img src="images/dnsregistration.png" class="img-fluid"> <img src="images/dnsresolution.png" class="img-fluid"></p>
+<ul>
+<li><strong>3rd-Party VM DNS Server</strong>
+<ul>
+<li>Typical solution, allowing syncing of domains between on-prem and Azure</li>
+<li>Alternative would be a newer Azure feature ‘<strong>Azure DNS Private Resolver</strong>’</li>
+</ul></li>
+</ul>
+</section>
+</section>
+<section id="azure-network-services" class="level4">
+<h4 class="anchored" data-anchor-id="azure-network-services">Azure Network Services</h4>
+<section id="nat-gateway" class="level5">
+<h5 class="anchored" data-anchor-id="nat-gateway">NAT Gateway</h5>
+<ul>
+<li>By default Azure will NAT traffic the public IP associated with a resource (either PIP for a VM or an LB), however resources without a public IP associated will be NATed to an ephemeral public IP provided by Azure</li>
+<li>It’s possible to set up a <strong>NAT GW</strong> resource for a specific subnet in Azure - this will NAT all outbound traffic to the same public IP address</li>
+<li>Note that <strong>NAT GW</strong>s are for outbound sessions and don’t provide NAT for any inbound connection other than established sessions - that would require an assigned PIP to an LB or the resource itself</li>
+<li>NAT GWs are zonal - it’s best to create a NAT GW for each zone you want to support and to assign resources in the same availability zone to the subnet using the NAT GW
+<ul>
+<li>This means that you would have to organize your subnets by zone, otherwise the NAT GW will not line up with the zone and could go down while the resources in another zone are still live</li>
+</ul></li>
+</ul>
+</section>
+<section id="azure-virtual-wan" class="level5">
+<h5 class="anchored" data-anchor-id="azure-virtual-wan">Azure Virtual WAN</h5>
+<ul>
+<li>Managed virtual WAN service for an ‘easy mode’ hub &amp; spoke topology in Azure</li>
+<li>Can incorporate multiple VPN/ER/VNETs and dynamically handles routing</li>
+<li>All of the functionality of Azure Virtual WAN can be provided without it, but it adds easier management to things like peering many VNETs/ERs/Network Gateways, adding/updating route tables and integrating with NVAs to update routes</li>
+<li>Essentially functions as a hub VNET in a normal hub &amp; spoke topology but with additional management features layered on</li>
+<li>Also allows transitive networking directly between spoke VNETs (not possible with traditional self-managed hub &amp; spoke Azure topology, traffic must go through hub)</li>
+<li>When creating a virtual hub, address space must be allocated for routing between the subnets that will be connected to the hub - the Microsoft recommended subnet size is /23, though it defaults to /16</li>
+<li>Azure Virtual WAN hub has its own route table
+<ul>
+<li>All VNETs added to hub can associate (learn routes) or propagate (add routes) to/from the Azure Virtual WAN</li>
+</ul></li>
+<li>You can define custom routes within the Azure Virtual WAN hub - by default all VNETs can talk to all other VNETs in the WAN, but this can be restricted with custom routes</li>
+<li>Hybrid network connections (S2S, P2S VPN, ER) are made directly through hub appliance</li>
+<li>These connections are assigned gateway ‘scale units’, which essentially function as SKUs by defining available bandwidth for a connection type
+<ul>
+<li>Scale units for VPN are 500Mbps per unit, 2Gbps per unit for ER</li>
+</ul></li>
+<li>Unlike a typical VNET, you cannot simply deploy a VM into a AZ Virtual WAN - if you want an NVA to filter your traffic, it has to be one of the Azure partner products (Zscaler, Checkpoint, or Azure firewall)</li>
+<li>When creating multiple hubs within a single Virtual WAN, the hubs automatically have connectivity to each other with no added configuration</li>
+<li>SKUs are ‘<strong>Basic</strong>’ (provides connectivity only for site-to-site connections) or ‘<strong>Standard</strong>’ (provides connectivity for ER, P2S, VNET to VNET, Azure NVA/Azure firewall)</li>
+</ul>
+</section>
+</section>
+<section id="azure-vpnson-prem-connectivity" class="level4">
+<h4 class="anchored" data-anchor-id="azure-vpnson-prem-connectivity">Azure VPNs/On-Prem Connectivity</h4>
+<section id="vnet-gateway-virtual-network-gatewayvpn-gateway" class="level5">
+<h5 class="anchored" data-anchor-id="vnet-gateway-virtual-network-gatewayvpn-gateway">VNET Gateway (Virtual Network Gateway/VPN Gateway)</h5>
+<ul>
+<li>Used for IPSec connectivity to on-prem (or other VNETs) - available in many SKUs with options for different throughputs, tunnel amounts, zone redundancy options and BGP support - also used for ExpressRoute (covered later)</li>
+<li>Requires its own dedicated subnet named ‘GatewaySubnet’, typically /27</li>
+<li>Only one VPN gateway and one ExpressRoute gateway possible per each VNET</li>
+<li>With anything other than the ‘Basic’ SKU, you can change your SKU to cheaper/more expensive options without requiring a redeployment of the resource</li>
+<li>Consists of 2 managed VMs in the background, though this is transparent to the Azure user</li>
+<li>By default, operates in active-standby HA configuration, but this can be configured as active-active instead if desired</li>
+<li>When connecting to on-prem (not another VNET) an additional resource is required, ‘<strong>Local Network Gateway</strong>’ which is used to configure details of the remote network</li>
+<li>Multiple tunnels can be formed to one VPN gateway, but all will share the same throughput limitations on the SKU selected</li>
+<li>Supports both policy-based (legacy, only in Basic SKU) and route-based IPSec VPN types</li>
+<li>VPN routes are automatically added to VNETs when adding a new VNET-to-VNET gateway connection</li>
+<li><strong>Basic SKU</strong> VPN gateways are <strong>now deprecated</strong> and can only be created via CLI</li>
+<li>Site to Site VPN Basic Setup Process:</li>
+</ul>
+<p><img src="images/site2sitevpn.png" class="img-fluid"></p>
+</section>
+<section id="point-to-site-vpn-client-vpn" class="level5">
+<h5 class="anchored" data-anchor-id="point-to-site-vpn-client-vpn">Point to Site VPN (Client VPN)</h5>
+<ul>
+<li>Used to connect to a single computer as opposed to a site-to-site VPN, used for telecommuting to Azure</li>
+<li>Tunnel protocol options are OpenVPN, SSTP and IKEv2 - OpenVPN has the widest compatibility
+<ul>
+<li>SSTP is only available for Windows, IKE for Macintosh</li>
+</ul></li>
+<li>Auth methods are Cert, Azure AD, RADIUS</li>
+<li>When adding a new peered network to the VNET where the P2S connection is terminated, the P2S configuration must be redownloaded to the client for them to be able to reach the peer
+<ul>
+<li>This is a pretty significant limitation as it makes it very painful to use this feature if new VNET peerings are regularly created</li>
+</ul></li>
+</ul>
+</section>
+<section id="expressroute" class="level5">
+<h5 class="anchored" data-anchor-id="expressroute">ExpressRoute</h5>
+<ul>
+<li>Private site-to-site connection into Azure, alternative to VPN gateway</li>
+<li>Always active-active pair of connections</li>
+<li>Build-in redundancy and very high speed (up to 100Gbps) options available</li>
+<li>Uses BGP for dynamic routing
+<ul>
+<li>Microsoft publishes BGP communities for services in specific regions that can be used for route manipulation</li>
+</ul></li>
+<li>Supports BFD for circuit failure detection</li>
+<li>Not encrypted by default, but can be encrypted with MACsec or IPsec</li>
+<li>Can choose billing options of unlimited data in/out, or unlimited inbound and metered outbound</li>
+<li><strong>Performance SKU</strong>s are ‘standard’ (1Gbps, 4 circuits), ‘high performance’ (2Gbps, 8 circuits) and ‘ultra performance’ (10Gbps, 16 circuits)</li>
+<li>Each ExpressRoute circuit allows 10 virtual networks to link to it with local or standard <strong>service models</strong> - premium allow up to 100 depending on the circuit size (see <a href="https://learn.microsoft.com/en-us/azure/expressroute/expressroute-faqs#expressroute-premium">here</a>)</li>
+<li>Connection models are ‘Cloud Exchange Co-Lo’, ‘Point to Point’, ‘Any to Any’ or ‘ExpressRoute Direct’ - all go through service providers except for ExpressRoute Direct which connects directly to Microsoft</li>
+<li>Connecting direct to Microsoft can offer much more bandwidth but is also much more expensive</li>
+<li><strong>Service models</strong> are ‘Local’, ‘Standard’, and ‘Premium’
+<ul>
+<li>Local only allows connectivity to a specific region but is much cheaper and allows for use of the unlimited billing model (unlimited in/out)</li>
+<li>Standard allows connectivity to any region in a larger geopolitical space (EU, North America)</li>
+<li>Premium allows connectivity to all regions, private connectivity to O365 and use of <strong>Global Reach</strong>, but is more expensive</li>
+</ul></li>
+<li><strong>Global Reach</strong> allows connecting through the Microsoft backbone for your own on-prem location, bypassing the typical transit requirements of going through Azure VNETs</li>
+<li>ExpressRoute <strong>FastPath</strong> can allow bypassing the VNET gateway and routing traffic direct to specific VMs, ideal for extreme low latency requirements but requires the Ultra Performance gateway SKU to function</li>
+<li>ExpressRoute Setup Process:</li>
+</ul>
+<p><img src="images/expressroute.png" class="img-fluid"></p>
+</section>
+</section>
+<section id="azure-network-security" class="level4">
+<h4 class="anchored" data-anchor-id="azure-network-security">Azure Network Security</h4>
+<section id="azure-firewall" class="level5">
+<h5 class="anchored" data-anchor-id="azure-firewall">Azure Firewall</h5>
+<ul>
+<li>Layer 3-7 stateful cloud-native firewall resource within Azure that integrates with Azure monitoring</li>
+<li>Standard SKU supports DNAT, network and application rule types, threat intelligence, FQDN support, and has built-in HA</li>
+<li>Premium offers the above and also includes IDS/IPS functionality, TLS inspection, web categories and URL filtering</li>
+<li>Must create a subnet called ‘AzureFirewallSubnet’ with a mask of /26 or larger</li>
+<li>By default FW will SNAT any traffic destined to non-RFC 1918 IPs, however this can be changed</li>
+<li>You can also link a NAT Gateway to the AzureFirewallSubnet and have this handle SNAT for the firewall</li>
+<li>When determining rule precedence, DNAT rules are first, then network rules, then application rules</li>
+<li>DNAT rules are for destination NAT through the firewall, network rules are for basic inbound/outbound 5 tuple filtering and application rules are for filtering traffic based on FQDN</li>
+<li>Rules can be configured as part of RCG (Rule Collection Groups)</li>
+<li>Rules can also be enforced by policy through a separate resource - these resources can also be nested underneath each other as parent and child policies</li>
+<li>Child policies inherit any RCGs from the parent and could add more if desired without affecting the parent policy</li>
+</ul>
+</section>
+<section id="web-application-firewall" class="level5">
+<h5 class="anchored" data-anchor-id="web-application-firewall">Web Application Firewall</h5>
+<ul>
+<li>WAF is a PaaS firewall for web applications like Application Gateways, Azure Front Doors</li>
+<li>It can be applied directly to resources or via policy to multiple resources, much like Azure firewall</li>
+<li>When applying to an individual resource, it exists under the resource itself, however when creating WAF as a policy it exists as a separate resource that can be applied to multiple of the same resource type (i.e.&nbsp;multiple AGW or multiple Azure front doors, but not both)</li>
+</ul>
+</section>
+<section id="network-security-groups" class="level5">
+<h5 class="anchored" data-anchor-id="network-security-groups">Network Security Groups</h5>
+<ul>
+<li>Basic Azure ACLs, although they are session-based and stateful</li>
+<li>5 tuple filtering (<em>source/destination IP/port, protocol [TCP, UDP]</em>) but no application awareness</li>
+<li><em>Application Security Groups</em> can be used to easily apply inbound/outbound traffic rules to groups of VMs with similar functions - function like tags for VMs to allow manipulation of traffic within an NSG</li>
+<li>ASGs are applied through the VM resource pane but apply at the NIC level, not to the VM resource</li>
+<li>Can monitor NSGs through flow logs stored in an Azure storage account (in JSON format) or through log analytics workspace</li>
+<li>These flow logs require Network Watcher be enabled for the region and Microsoft.Insights be enabled for the subscription</li>
+</ul>
+</section>
+</section>
+<section id="azure-load-balancing-services" class="level4">
+<h4 class="anchored" data-anchor-id="azure-load-balancing-services">Azure Load Balancing Services</h4>
+<section id="load-balancer" class="level5">
+<h5 class="anchored" data-anchor-id="load-balancer">Load Balancer</h5>
+<ul>
+<li>Load balances traffic to backend pool of VMs based on specific load balancing algorithms</li>
+<li>L4, operates based on 5-tuple (<em>source/destination IP/port, protocol [TCP, UDP]</em>) but no application awareness</li>
+<li>Health probes ensure load balancers only forward traffic to healthy VMs</li>
+<li>Supports both balancing traffic to VMs and destination NATing directly to individual VMs if desired</li>
+<li>Basic SKU only allows balancing to an availability set, whereas standard has higher uptime requirements and much more flexibility for its backend pools</li>
+<li>Can be used for internal resources with private IP addressing or external with public (cannot be mixed on one LB)</li>
+<li>Each VM can be a member of only one <em>internal</em> LB backend pool and one <em>external</em> LB backend pool</li>
+<li>Can implement session persistence (sticky sessions) in Azure LBs</li>
+<li>By using HA ports, can load balance to many different ports simultaneously without having to create rules for each individual port (will distribute all flows to backend regardless of port)
+<ul>
+<li>This is useful in scenarios such as hosting multiple NVA firewalls in a backend pool to balance traffic - the load balancer will automatically ensure traffic is kept stateful with flow symmetry</li>
+<li>Only works with standard, internal load balancers</li>
+</ul></li>
+<li><strong>Floating IP</strong> will allow the backend member to see the destination IP as the front end IP of the load balancer - normally this would be obscured by Azure with the destination appearing as the VM’s IP, from the VM’s perspective</li>
+<li>Can allocate specific numbers of ports/IPs for outbound connections through the load balancer with outbound rules</li>
+<li>Can load balance globally between multiple regional load balancers by creating an LB, selecting ‘global’ tier and using the regional LBs as the backend pool - example below</li>
+</ul>
+<p><img src="images/globallb.png" class="img-fluid"></p>
+<ul>
+<li>Note that <a href="https://learn.microsoft.com/en-us/azure/load-balancer/cross-region-overview#home-regions-in-azure">only specific home regions</a> can be used for a global LB</li>
+</ul>
+</section>
+<section id="application-gateway" class="level5">
+<h5 class="anchored" data-anchor-id="application-gateway">Application Gateway</h5>
+<ul>
+<li>An regional Azure L7 HTTP/S load balancer that allows the LB to route traffic based on HTTP headers, URLs and other attributes
+<ul>
+<li>For multi-region workloads, use Azure Front Door</li>
+</ul></li>
+<li>Can be used internally or externally</li>
+<li>Can use app service, IPs and FQDNs on backend pool, not just VMs like a regular Azure LB</li>
+<li>Can also use on-prem resources or public IPs, DNS names in backend - all you need is reachability</li>
+<li>Requires a dedicated subnet</li>
+<li>Supports many more advanced ADC features compared to Azure LB; see below for details</li>
+<li><strong>Standard V1</strong> SKU supports URL-based routing, multi-site hosting, web application firewalls, TLS offloading, session affinity (sticky sessions), custom error pages, and fully private access</li>
+<li><strong>Standard V2</strong> SKU supports the above but must use a public IP (and optionally private as well), also supports autoscaling, zone redundancy, static VIPs, integration with AKS controllers and Azure Key vault, HTTP/S header rewriting and custom web application firewall rules</li>
+</ul>
+<p><img src="images/agw.png" class="img-fluid"></p>
+</section>
+<section id="azure-front-door" class="level5">
+<h5 class="anchored" data-anchor-id="azure-front-door">Azure Front Door</h5>
+<ul>
+<li>A global layer 7 load balancer that supports content acceleration and high availability across Microsoft’s backbone network, allowing fast connectivity from anywhere on earth - operates in any Azure region</li>
+<li>Uses similar design as AGW with different vernacular - <em>frontend</em> is the same, <em>origin group</em> = backend pool, <em>origin</em> = backend target and <em>routes</em> = rules</li>
+<li>A common configuration would be to have application gateways at the regional level in the origin group (backend), globally load balanced by an Azure Front Door instance</li>
+<li><strong>Classic V1 SKU</strong> supports global layer 7 HTTP/S/2, heath probes, URL-path based routing, multi-site hosting, cookie affinity, SSL offloading, custom domains and URL rewriting/redirection</li>
+<li><strong>Standard/Premium V2 SKU</strong> allows for all the V1 features along with caching of web solutions on different Azure POPs, CDN optimization, and custom WAF rules</li>
+<li>With Front Door custom domains, you validate domain ownership with a text record in the domain</li>
+<li>If using custom domains, Azure will manage SSL certificates for you</li>
+</ul>
+</section>
+<section id="azure-traffic-manager" class="level5">
+<h5 class="anchored" data-anchor-id="azure-traffic-manager">Azure Traffic Manager</h5>
+<ul>
+<li>Like Azure Front Door, a global load balancer, however it leverages DNS for this traffic distribution</li>
+<li>When a domain used in traffic manager is queried, traffic manager will examine its routing rules and determine which backend target to return to the query - this allows traffic manager to control how traffic is sent to the backend without being inline of the data stream (other than the DNS resolution)</li>
+<li>These rules can select the backend based on many methods, including priority, weight, performance (lowest latency), geographic location, subnet, etc</li>
+<li>Supports health probing on different protocols (HTTP, HTTPS, TCP) and allows specific path configuration, timeout settings
+<ul>
+<li>You can also disable health probing for an endpoint if desired</li>
+</ul></li>
+<li>Backends can be internal Azure app services, external IPs/FDQNs or nested (TM within TM), covered below</li>
+<li>Can nest profiles within each other and use a child profile as an endpoint in a parent profile - <a href="https://learn.microsoft.com/en-us/azure/traffic-manager/traffic-manager-nested-profiles">Azure doc</a></li>
+</ul>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/brunbattery\.github\.io\/NetworkNotes\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./Azure Basics (AZ-900).html" class="pagination-link" aria-label="Azure Basics (AZ-900)">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Azure Basics (AZ-900)</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./Palo Alto Concepts &amp; Links.html" class="pagination-link" aria-label="Palo Alto Notes">
+        <span class="nav-page-text">Palo Alto Notes</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>Published by Brendan Battersby, 2024</p>
+</div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

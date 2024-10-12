@@ -35,7 +35,7 @@ editor_options:
 - Phase two establishes IPsec SA, tunnel used to protect actual data traffic
 - **In Phase 1:**
 	- Authentication either PSK (Pre-shared key) or certificate based
-	- DH^[Diffie Hellman - asymmetric key algorithm used for IPsec, SSL, SSH and others. Peers create public and private keys, exchange public key and generate symmetric key (shared secret) with their own private key and peer's public key[[DH.png|See Example]]] used to exchange crypto keys
+	- DH^[Diffie Hellman - asymmetric key algorithm used for IPsec, SSL, SSH and others. Peers create public and private keys, exchange public key and generate symmetric key (shared secret) with their own private key and peer's public key.] used to exchange crypto keys
 		- Higher DH group number is more secure
 	- Encryption algorithms used to protect traffic
 		- Possibilities include DES, 3DES, AES-128, AES-256, etc
@@ -60,7 +60,7 @@ editor_options:
 	- Combination of the above called IPsec **Transform Set**
 	- Only performed in QM (quick mode)
 - UDP 500 (ISAKMP), 4500 (NAT-T) are ports used to establish control plane
-	- 4500 is only used with NAT-T^[NAT-Traversal add an additional UDP header which encapsulates the IPsec ESP header. Since this header is not encrypted it allows NAT without breaking packet integrity requirements of IPsec [[NAT-T.png|See Example]]]
+	- 4500 is only used with NAT-T^[NAT-Traversal add an additional UDP header which encapsulates the IPsec ESP header. Since this header is not encrypted it allows NAT without breaking packet integrity requirements of IPsec.]
 - IPsec data plane uses IP protocol **50** (ESP), **51** (AH) in the IP header
 
 ---
@@ -175,4 +175,5 @@ interface Ethernet0/0
  crypto map <cm-name>
 ```
 
-##### See DMVPN page for details on DMVPN IPsec config 
+##### DMVPN
+- See [DMVPN](DMVPN.md) page for details on DMVPN IPsec config

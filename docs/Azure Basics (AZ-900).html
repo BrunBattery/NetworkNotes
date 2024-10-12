@@ -1,0 +1,1437 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Azure Basics (AZ-900) – Bren’s Networking Notes</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./Azure Networking (AZ-700).html" rel="next">
+<link href="./Netflow.html" rel="prev">
+<link href="./images/logo.png" rel="icon" type="image/png">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar docked">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Azure Basics (AZ-900).html">Azure</a></li><li class="breadcrumb-item"><a href="./Azure Basics (AZ-900).html">Azure Basics (AZ-900)</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-center sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Bren’s Networking Notes</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://www.linkedin.com/in/brendanbattersby/" title="LinkedIn" class="quarto-navigation-tool px-1" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+    <a href="https://www.youtube.com/@brunbattery" title="YouTube" class="quarto-navigation-tool px-1" aria-label="YouTube"><i class="bi bi-youtube"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Welcome</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">CCNP</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+ <span class="menu-text">L3 Technologies</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Redistribution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Redistribution</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./PBR.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">PBR</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./VRF.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">VRF</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./EIGRP.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">EIGRP</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./OSPF.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">OSPF</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./BGP.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">BGP</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
+ <span class="menu-text">VPN &amp; Encryption</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./MPLS.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">MPLS</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./DMVPN.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">DMVPN</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./IPsec &amp; GRE VPN.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">IPsec &amp; GRE VPN</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
+ <span class="menu-text">Infrastructure Security</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./AAA.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">AAA</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./uRPF.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">uRPF</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./CoPP.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">CoPP</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./IPv6 First Hop Security.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">IPv6 First Hop Security</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false">
+ <span class="menu-text">Infrastructure Services</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./SNMP.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">SNMP</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Syslog.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Syslog</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./DHCP.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">DHCP</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./IP SLA &amp; Tracking.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">IP SLA &amp; Tracking</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Netflow.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Netflow</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">Azure</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Azure Basics (AZ-900).html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Azure Basics (AZ-900)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Azure Networking (AZ-700).html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Azure Networking (AZ-700)</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
+ <span class="menu-text">Palo Alto</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Palo Alto Concepts &amp; Links.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Palo Alto Notes</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true">
+ <span class="menu-text">Fitness &amp; Lifestyle</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Fitness &amp; Lifestyle General Notes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Fitness &amp; Lifestyle Notes</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#azure-acronyms" id="toc-azure-acronyms" class="nav-link active" data-scroll-target="#azure-acronyms">Azure Acronyms</a></li>
+  <li><a href="#interacting-with-azure" id="toc-interacting-with-azure" class="nav-link" data-scroll-target="#interacting-with-azure">Interacting with Azure</a>
+  <ul>
+  <li><a href="#access-methods" id="toc-access-methods" class="nav-link" data-scroll-target="#access-methods">Access Methods</a></li>
+  <li><a href="#arm-arm-templates" id="toc-arm-arm-templates" class="nav-link" data-scroll-target="#arm-arm-templates">ARM &amp; ARM Templates</a></li>
+  </ul></li>
+  <li><a href="#cloud-computing-fundamentals" id="toc-cloud-computing-fundamentals" class="nav-link" data-scroll-target="#cloud-computing-fundamentals">Cloud Computing Fundamentals</a>
+  <ul>
+  <li><a href="#cloud-computing-vocabulary" id="toc-cloud-computing-vocabulary" class="nav-link" data-scroll-target="#cloud-computing-vocabulary">Cloud Computing Vocabulary</a></li>
+  <li><a href="#capex-vs-opex" id="toc-capex-vs-opex" class="nav-link" data-scroll-target="#capex-vs-opex">CapEx vs OpEx</a></li>
+  <li><a href="#iaas-paas-saas" id="toc-iaas-paas-saas" class="nav-link" data-scroll-target="#iaas-paas-saas">IAAS, PAAS &amp; SAAS</a></li>
+  <li><a href="#private-public-hybrid-clouds" id="toc-private-public-hybrid-clouds" class="nav-link" data-scroll-target="#private-public-hybrid-clouds">Private, Public &amp; Hybrid Clouds</a></li>
+  </ul></li>
+  <li><a href="#azure-architecture-containers-resources" id="toc-azure-architecture-containers-resources" class="nav-link" data-scroll-target="#azure-architecture-containers-resources">Azure Architecture, Containers &amp; Resources</a>
+  <ul>
+  <li><a href="#regions-and-availability-zones" id="toc-regions-and-availability-zones" class="nav-link" data-scroll-target="#regions-and-availability-zones">Regions and Availability Zones</a></li>
+  <li><a href="#resource-groups" id="toc-resource-groups" class="nav-link" data-scroll-target="#resource-groups">Resource Groups</a></li>
+  <li><a href="#virtual-machines" id="toc-virtual-machines" class="nav-link" data-scroll-target="#virtual-machines">Virtual Machines</a></li>
+  <li><a href="#scale-sets" id="toc-scale-sets" class="nav-link" data-scroll-target="#scale-sets">Scale Sets</a></li>
+  <li><a href="#containers" id="toc-containers" class="nav-link" data-scroll-target="#containers">Containers</a></li>
+  <li><a href="#app-services" id="toc-app-services" class="nav-link" data-scroll-target="#app-services">App Services</a></li>
+  <li><a href="#azure-functionsserverless" id="toc-azure-functionsserverless" class="nav-link" data-scroll-target="#azure-functionsserverless">Azure Functions/Serverless</a></li>
+  </ul></li>
+  <li><a href="#azure-storage" id="toc-azure-storage" class="nav-link" data-scroll-target="#azure-storage">Azure Storage</a>
+  <ul>
+  <li><a href="#storage-accounts" id="toc-storage-accounts" class="nav-link" data-scroll-target="#storage-accounts">Storage Accounts</a></li>
+  <li><a href="#blob-storage" id="toc-blob-storage" class="nav-link" data-scroll-target="#blob-storage">Blob Storage</a></li>
+  <li><a href="#disk-storage" id="toc-disk-storage" class="nav-link" data-scroll-target="#disk-storage">Disk storage</a></li>
+  <li><a href="#file-transfers-to-azure" id="toc-file-transfers-to-azure" class="nav-link" data-scroll-target="#file-transfers-to-azure">File Transfers to Azure</a></li>
+  </ul></li>
+  <li><a href="#azure-iam-management" id="toc-azure-iam-management" class="nav-link" data-scroll-target="#azure-iam-management">Azure IAM &amp; Management</a>
+  <ul>
+  <li><a href="#entra-id" id="toc-entra-id" class="nav-link" data-scroll-target="#entra-id">Entra ID</a></li>
+  <li><a href="#azure-adds" id="toc-azure-adds" class="nav-link" data-scroll-target="#azure-adds">Azure ADDS</a></li>
+  <li><a href="#management-groups" id="toc-management-groups" class="nav-link" data-scroll-target="#management-groups">Management Groups</a></li>
+  <li><a href="#conditional-access" id="toc-conditional-access" class="nav-link" data-scroll-target="#conditional-access">Conditional Access</a></li>
+  <li><a href="#azure-governance" id="toc-azure-governance" class="nav-link" data-scroll-target="#azure-governance">Azure Governance</a></li>
+  <li><a href="#azure-policy" id="toc-azure-policy" class="nav-link" data-scroll-target="#azure-policy">Azure Policy</a></li>
+  <li><a href="#tags" id="toc-tags" class="nav-link" data-scroll-target="#tags">Tags</a></li>
+  <li><a href="#azure-bastion" id="toc-azure-bastion" class="nav-link" data-scroll-target="#azure-bastion">Azure Bastion</a></li>
+  <li><a href="#passwordless-auth" id="toc-passwordless-auth" class="nav-link" data-scroll-target="#passwordless-auth">Passwordless Auth</a></li>
+  <li><a href="#sspr" id="toc-sspr" class="nav-link" data-scroll-target="#sspr">SSPR</a></li>
+  </ul></li>
+  <li><a href="#azure-monitoring-pricing" id="toc-azure-monitoring-pricing" class="nav-link" data-scroll-target="#azure-monitoring-pricing">Azure Monitoring &amp; Pricing</a>
+  <ul>
+  <li><a href="#azure-monitor" id="toc-azure-monitor" class="nav-link" data-scroll-target="#azure-monitor">Azure Monitor</a></li>
+  <li><a href="#azure-service-health" id="toc-azure-service-health" class="nav-link" data-scroll-target="#azure-service-health">Azure Service Health</a></li>
+  <li><a href="#azure-pricing" id="toc-azure-pricing" class="nav-link" data-scroll-target="#azure-pricing">Azure Pricing</a></li>
+  </ul></li>
+  <li><a href="#azure-dr-backups-update-management" id="toc-azure-dr-backups-update-management" class="nav-link" data-scroll-target="#azure-dr-backups-update-management">Azure DR, Backups &amp; Update Management</a></li>
+  <li><a href="#azure-database-fundamentals" id="toc-azure-database-fundamentals" class="nav-link" data-scroll-target="#azure-database-fundamentals">Azure Database Fundamentals</a></li>
+  <li><a href="#other-azure-featuresservices" id="toc-other-azure-featuresservices" class="nav-link" data-scroll-target="#other-azure-featuresservices">Other Azure Features/Services</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Azure Basics (AZ-900).html">Azure</a></li><li class="breadcrumb-item"><a href="./Azure Basics (AZ-900).html">Azure Basics (AZ-900)</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">Azure Basics (AZ-900)</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="azure-acronyms" class="level4">
+<h4 class="anchored" data-anchor-id="azure-acronyms">Azure Acronyms</h4>
+<ul>
+<li><strong>ACU</strong> - Azure compute unit - way to compare CPU performance across different SKUs</li>
+<li><strong>SKU</strong> - Stock keeping unit - describes particular type of purchasable product (VM SKU)</li>
+<li><strong>RBAC</strong> - Rule-based access control - authorization control system in Azure</li>
+<li><strong>RG</strong> - Resource groups - folders in Azure for organizing resources</li>
+<li><strong>ASG</strong> - Application security group - group of like resources for use with NSG rules</li>
+<li><strong>ARM</strong> - Azure resource manager - single management plane for all of Azure</li>
+<li><strong>ACI</strong> - Azure container instance - Useful for small scale use of containers in Azure</li>
+<li><strong>AKS</strong> - Azure kubernetes service - Used for container orchestration and management</li>
+<li><strong>ACR</strong> - Azure kubernetes registry - Used to keep track of valid container images</li>
+<li><strong>UDR</strong> - User-defined routes - made by modifying the route table(s) in Azure</li>
+<li><strong>NVA</strong> - Network virtual appliance - Network VM such as Cisco CSR, Palo Alto VM-100</li>
+<li><strong>P2S</strong> - Point to site - Method for connecting individual hosts to Azure via VPN</li>
+<li><strong>ER</strong> - Express route - Private link connectivity to Azure through an ISP</li>
+<li><strong>NSG</strong> - Network security group - Azure stateful ACL</li>
+<li><strong>CDN</strong> - Content delivery network - places copies of cached data at edge nodes in many locations, allowing better latency and performance</li>
+</ul>
+<hr>
+</section>
+<section id="interacting-with-azure" class="level4">
+<h4 class="anchored" data-anchor-id="interacting-with-azure">Interacting with Azure</h4>
+<section id="access-methods" class="level5">
+<h5 class="anchored" data-anchor-id="access-methods">Access Methods</h5>
+<ul>
+<li><strong>Azure Portal</strong>
+<ul>
+<li>Web GUI for managing Azure</li>
+<li>All aspects of Azure are possible to manage through the portal</li>
+</ul></li>
+<li><strong>Azure CLI</strong>
+<ul>
+<li>Text-only interface for Azure with Bash</li>
+<li>Allows for automation and greater efficiency than the portal</li>
+</ul></li>
+<li><strong>Azure PowerShell</strong>
+<ul>
+<li>Also possible to interact with Azure through PowerShell</li>
+<li>PowerShell is also useful for many other windows tasks, which makes skills with PowerShell more transferrable outside of Azure than the CLI or Portal</li>
+</ul></li>
+<li><strong>Cloud Shell</strong>
+<ul>
+<li>Allows access to either a Bash (Azure CLI) or PowerShell terminal through the web or mobile app</li>
+<li>Has dedicated storage, allowing persistent data between sessions</li>
+<li>Accessed via the shell icon at the top right corner of the web portal</li>
+<li>Sometimes bugs out and needs to be refreshed with <code>clear</code></li>
+</ul></li>
+<li><strong>Azure Mobile App</strong>
+<ul>
+<li>Another option for interaction with Azure - can access basic portal functions and the Azure cloud shell via Mobile</li>
+</ul></li>
+</ul>
+</section>
+<section id="arm-arm-templates" class="level5">
+<h5 class="anchored" data-anchor-id="arm-arm-templates">ARM &amp; ARM Templates</h5>
+<ul>
+<li>ARM stands for Azure Resource Manager</li>
+<li>All configuration in Azure is brokered through Azure resource manager control plane - the Azure portal, PowerShell, CLI, REST APIs all interact with Azure through ARM</li>
+<li>Ensures consistency between all forms of configuration by keeping control plane consistent</li>
+<li>All Azure resources actually created with JSON ARM templates which are visible in Azure under ‘Automation &gt; Export Template’</li>
+<li>Templates are JSON files that define infrastructure configurations for Azure resources</li>
+<li>Idempotent, declarative and reusable</li>
+<li>Very useful for automation of Azure</li>
+<li>Key sections for ARM templates:
+<ul>
+<li><strong>Schema</strong> - Defines ARM template version</li>
+<li><strong>Content Version</strong> - Optional, for declaring version of that specific template</li>
+<li><strong>Parameters</strong> - Allows parameterization of template</li>
+<li><strong>Variables</strong> - Defines reusable variables in the template</li>
+<li><strong>Resources</strong> - Specifies Azure resource being deployed/modified, including type, name, location and properties</li>
+<li><strong>Outputs</strong> - Defines what returns after ARM template completes, such as resource IDs or strings</li>
+</ul></li>
+<li>Example ARM template:</li>
+</ul>
+<pre><code>                    {
+              "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+              "contentVersion": "1.0.0.0",
+              "parameters": {
+                "storageAccountType": {
+                  "type": "string",
+                  "defaultValue": "Standard_LRS",
+                  "allowedValues": [
+                    "Standard_LRS",
+                    "Standard_GRS",
+                    "Standard_ZRS"
+                  ],
+                  "metadata": {
+                    "description": "Storage Account type"
+                  }
+                }
+              },
+              "variables": {
+                "storageAccountName": "[concat('storage', uniqueString(resourceGroup().id))]"
+              },
+              "resources": [
+                {
+                  "type": "Microsoft.Storage/storageAccounts",
+                  "apiVersion": "2019-06-01",
+                  "name": "[variables('storageAccountName')]",
+                  "location": "[resourceGroup().location]",
+                  "sku": {
+                    "name": "[parameters('storageAccountType')]"
+                  },
+                  "kind": "StorageV2",
+                  "properties": {}
+                }
+              ],
+              "outputs": {
+                "storageAccountName": {
+                  "type": "string",
+                  "value": "[variables('storageAccountName')]"
+                }
+              }
+            }</code></pre>
+</section>
+</section>
+<section id="cloud-computing-fundamentals" class="level4">
+<h4 class="anchored" data-anchor-id="cloud-computing-fundamentals">Cloud Computing Fundamentals</h4>
+<section id="cloud-computing-vocabulary" class="level5">
+<h5 class="anchored" data-anchor-id="cloud-computing-vocabulary">Cloud Computing Vocabulary</h5>
+<ul>
+<li><strong>High Availability</strong> - Cloud computing allows near-instant failover, as you can abstract the applications from the hardware much more than in traditional deployments</li>
+<li><strong>Reliability/Fault Tolerance/Disaster Recovery</strong> - Resiliency through deployment in multiple locations/regions and avoiding single points of failure
+<ul>
+<li>Azure is auto-healing - if a node or disk fails, services will migrate</li>
+<li>Azure always stores 3 copies of any data</li>
+<li>Azure allows auto-scale to scale capacity</li>
+<li>When considering reliability, you must design for failure scenarios
+<ul>
+<li>Designs considering HA and DR should utilize multiple regions, availability zones</li>
+</ul></li>
+</ul></li>
+<li><strong>Scalability</strong> - The ability of servers/services to increase/decrease resources as needed - with Azure you can set up auto-scaling to accomplish this for you
+<ul>
+<li>Horizontal scaling - ‘scaling out’, adding additional VMs for increased demands</li>
+<li>Vertical scaling - ‘scaling up’, increasing resources (CPU, RAM) on a particular host</li>
+</ul></li>
+<li><strong>Predictability</strong> - With cloud deployments predictability can be ensured (via scaling, HA, load balancing etc) to provide a consistent user experience - costs are also predictable thanks to cost tracking analytics and resource usage forecasting
+<ul>
+<li>Azure has specific SKUs, ACUs that will always perform the same way</li>
+<li>APIs and templates are consistent between regions</li>
+<li>Using templates and automation can assist in keeping things predictable</li>
+</ul></li>
+<li><strong>Security</strong> - Cloud security is maintained through typical proper security best-practices like regular patching, account management, MFA, etc, however some of this can be offloaded to Microsoft with Azure and Azure Advisor will recommend best-practices as well</li>
+<li><strong>Governance</strong> - Standardizing your environments, meeting regulatory requirements and maintaining compliance with your policies</li>
+<li><strong>Manageability</strong> - Refers to both direct management of cloud resources through the portal, CLI, APIs etc and also monitoring and templating your deployments</li>
+</ul>
+</section>
+<section id="capex-vs-opex" class="level5">
+<h5 class="anchored" data-anchor-id="capex-vs-opex">CapEx vs OpEx</h5>
+<ul>
+<li><strong>CapEx</strong> is capital expenditure - paying upfront for hardware
+<ul>
+<li>One key factor with CapEx is that you need to build out the hardware to account for peak capacity whereas OpEx can scale to load</li>
+</ul></li>
+<li><strong>OpEx</strong> is operational expenditure - you pay for what you use
+<ul>
+<li>Cloud is consumption-based and OpEx</li>
+</ul></li>
+</ul>
+</section>
+<section id="iaas-paas-saas" class="level5">
+<h5 class="anchored" data-anchor-id="iaas-paas-saas">IAAS, PAAS &amp; SAAS</h5>
+<ul>
+<li>IAAS - infrastructure as a service - VM in the cloud would be an example
+<ul>
+<li>Azure handles compute, network and storage in their DCs</li>
+<li>Most flexible as you have access to the OS to change whatever you need</li>
+</ul></li>
+<li>PAAS - platform as a service - app services, serverless functions and logic apps</li>
+<li>SAAS - software as a service - O365 - pay purely for the application</li>
+</ul>
+</section>
+<section id="private-public-hybrid-clouds" class="level5">
+<h5 class="anchored" data-anchor-id="private-public-hybrid-clouds">Private, Public &amp; Hybrid Clouds</h5>
+<ul>
+<li><strong>Private cloud</strong>
+<ul>
+<li>Owned by the enterprise itself</li>
+<li>CapEx, accessed locally</li>
+</ul></li>
+<li><strong>Public cloud</strong>
+<ul>
+<li>Azure, AWS, GCP</li>
+<li>OpEx, accessed over the internet, many regions</li>
+</ul></li>
+<li><strong>Hybrid cloud</strong>
+<ul>
+<li>Combination of both public and private cloud</li>
+<li>Can use Azure Arc for management with Azure platform in private cloud</li>
+</ul></li>
+</ul>
+</section>
+</section>
+<section id="azure-architecture-containers-resources" class="level4">
+<h4 class="anchored" data-anchor-id="azure-architecture-containers-resources">Azure Architecture, Containers &amp; Resources</h4>
+<section id="regions-and-availability-zones" class="level5">
+<h5 class="anchored" data-anchor-id="regions-and-availability-zones">Regions and Availability Zones</h5>
+<ul>
+<li><strong>Regions &amp; Region Pairs</strong>
+<ul>
+<li>Regions defined by 2ms round-trip latency (e.g.&nbsp;West US, East US, UK South, etc)</li>
+<li>Choosing regions close to intended users ensures lower latency, better performance</li>
+<li>Data sovereignty requirements for certain organizations/governments may mean data has to say in certain regions</li>
+<li>Using multiple regions for DR is a good idea to avoid the possibilities of natural disasters or failures affecting all services</li>
+<li>Azure has region pairs for replication that are located within the same regional boundaries (e.g.&nbsp;West US, East US &amp; Canada Central, Canada East)</li>
+<li>Azure will not deploy updates to both members of a region pair at the same time to avoid causing issues in both locations</li>
+</ul></li>
+<li><strong>Availability Zones</strong>
+<ul>
+<li>Availability zones allow redundancy within regions</li>
+<li>The different availability zones protect against datacenter-level problems affecting services within a region - can choose from 3 different availability zones in a subscription</li>
+<li>Zonal assets like VMs allow you to choose availability zone</li>
+<li>Zone redundant assets (usually Azure native services) deploy to all 3 zones by default</li>
+</ul></li>
+</ul>
+</section>
+<section id="resource-groups" class="level5">
+<h5 class="anchored" data-anchor-id="resource-groups">Resource Groups</h5>
+<ul>
+<li>Function like folders for organizing resources in Azure</li>
+<li>Resources all must live in one and only one resource group</li>
+<li>Can have many different resources from different regions in one resource group</li>
+<li>Usually best to group resources based on usage - i.e.&nbsp;all resources for one firewall (VM, disk, public IP, NIC, etc) in one resource group</li>
+<li>Can apply RBAC, policies, budgets based on resource groups</li>
+</ul>
+</section>
+<section id="virtual-machines" class="level5">
+<h5 class="anchored" data-anchor-id="virtual-machines">Virtual Machines</h5>
+<ul>
+<li>Virtualized machine, example of IAAS</li>
+<li>VMs are their own resource in Azure but require other resources to function</li>
+<li>Other resources are data disks, OS disks, vNICs, NSGs, Public IPs, vNETs, etc</li>
+<li>Priced per hour and become more expensive the more CPU/RAM allocated to it</li>
+</ul>
+</section>
+<section id="scale-sets" class="level5">
+<h5 class="anchored" data-anchor-id="scale-sets">Scale Sets</h5>
+<ul>
+<li>A pool of identical, load balanced VMs, used for auto-scaling horizontally</li>
+<li>Can be run at a very large scale of potentially thousands of VMs</li>
+</ul>
+</section>
+<section id="containers" class="level5">
+<h5 class="anchored" data-anchor-id="containers">Containers</h5>
+<ul>
+<li>Operate like lightweight virtual machines that share the OS kernel but have their own file systems and processes. Highly efficient compared to VMs as the resources used for the OS only required once for multiple containers - also start up quickly which allows them to be effective for dynamic scaling. They also run in a consistent fashion across multiple cloud vendors and on-prem clouds. They can be implemented at a small scale in Azure with ACI (Azure Container Instance), or, if more orchestration is required with AKS (Azure Kubernetes Service).</li>
+</ul>
+</section>
+<section id="app-services" class="level5">
+<h5 class="anchored" data-anchor-id="app-services">App Services</h5>
+<ul>
+<li>PAAS offering used to build web and mobile apps and APIs directly in the cloud without the need for containers or VMs. Infrastructure management is abstracted and managed by Azure. Highly scalable and provides built-in HA and load balancing.</li>
+<li>Can be connected into a VNET via networking tab, requiring a subnet within the VNET in the same region as the app service</li>
+<li>If connecting to a different region, connecting to the VNET requires P2S VPN gateway integration</li>
+<li><strong>Web Apps</strong> - Website and online apps hosted by Azure - auto-scaling and load balancing</li>
+<li><strong>Web Apps for Containers</strong> - Similar to Web Apps above but containerized and portable between different environments</li>
+<li><strong>API Apps</strong> - Used to allow API to your backend for programmatic interfacing</li>
+</ul>
+</section>
+<section id="azure-functionsserverless" class="level5">
+<h5 class="anchored" data-anchor-id="azure-functionsserverless">Azure Functions/Serverless</h5>
+<ul>
+<li>Another infrastructure-abstracted method of running code in Azure, triggering based on certain events or triggers. Azure functions require you to write the code, whereas Azure logicapps are drag and drop and can be done by anyone without coding experience.</li>
+</ul>
+</section>
+</section>
+<section id="azure-storage" class="level4">
+<h4 class="anchored" data-anchor-id="azure-storage">Azure Storage</h4>
+<section id="storage-accounts" class="level5">
+<h5 class="anchored" data-anchor-id="storage-accounts">Storage Accounts</h5>
+<ul>
+<li>Different storage service types are queue, table, files and container blobs</li>
+<li>Unique Azure namespace with its own web address</li>
+<li><code>companyname.&lt;storagetype&gt;.core.windows.net</code>, for example</li>
+<li>Exists in particular regions - care should be taken to make sure it exists in the same region as resources using it</li>
+<li><strong>Performance</strong>
+<ul>
+<li>Standard - always general purpose V2</li>
+<li>Premium - options are block blob, page blob and files
+<ul>
+<li>Block blobs are for unstructured data</li>
+<li>Page blobs are for VHDs of Azure VMs</li>
+<li>Azure files is a managed file share service accessed over SMB or NFS</li>
+</ul></li>
+</ul></li>
+<li><strong>Redundancy</strong>
+<ul>
+<li>All data in Azure has minimum of 3 copies regardless of redundancy tier</li>
+<li>LRS - Locally Redundant Storage - basic protection against rack failures</li>
+<li>ZRS - Zone Redundant Storage - protects against DC failures</li>
+<li>GRS - Geo Redundant Storage - protects against region failures</li>
+<li>GZRS - Combines GRS &amp; ZRS - protects against all failure scenarios</li>
+<li>Premium storage types can only use LRS, ZRS</li>
+</ul></li>
+</ul>
+</section>
+<section id="blob-storage" class="level5">
+<h5 class="anchored" data-anchor-id="blob-storage">Blob Storage</h5>
+<ul>
+<li>‘Binary Large Object’ - basically any type of files you want</li>
+<li>Block blobs - Store unstructured data, binary files up to 4.7TB</li>
+<li>Append blobs - Optimized for ‘append’ operations - ideal for logging</li>
+<li>Page blobs - Mainly used for VHDs, can be up to 8TB in size</li>
+<li>3 different pricing tiers - Hot (for frequently accessed files), Cold (Lower storage cost but higher access times), Archive (Very low cost and high access times)</li>
+<li>Can automate moving blobs from hot to cold, archive or delete based on file age/last modified date</li>
+</ul>
+</section>
+<section id="disk-storage" class="level5">
+<h5 class="anchored" data-anchor-id="disk-storage">Disk storage</h5>
+<ul>
+<li>Comes in 4 types: HDD, Standard SSD, Premium SSD and Ultra Disk</li>
+<li>Azure ensures data is redundant, backed up and always accessible</li>
+</ul>
+</section>
+<section id="file-transfers-to-azure" class="level5">
+<h5 class="anchored" data-anchor-id="file-transfers-to-azure">File Transfers to Azure</h5>
+<ul>
+<li><strong>AzCopy</strong> - Command-line utility for copying files to Azure</li>
+<li><code>azcopy cp "filename.mp4" "https://mystorage.blob.core.windows.net/contain</code></li>
+<li><strong>Storage Explorer</strong> - GUI utility that allows drag &amp; drop like Windows explorer</li>
+<li><strong>Azure File Sync</strong> - Syncs SMB fileshares between Azure &amp; on-prem automatically</li>
+<li><strong>Azure Data Box</strong> - Offline data transfer method for large file transfers to Azure, an encrypted data storage solution shipped to your location - files added and moved to Azure once device is shipped back</li>
+<li><strong>Azure Migrate</strong> - helps to assess and migrate on-prem resources into Azure - will help with compatibility, sizing, estimating cost and migration of resources</li>
+</ul>
+</section>
+</section>
+<section id="azure-iam-management" class="level4">
+<h4 class="anchored" data-anchor-id="azure-iam-management">Azure IAM &amp; Management</h4>
+<section id="entra-id" class="level5">
+<h5 class="anchored" data-anchor-id="entra-id">Entra ID</h5>
+<ul>
+<li>IAM (Identity &amp; Access Management) service for Azure that provides an identity repository, including users, groups, policies and security features</li>
+<li>Tenant is a dedicated instance of Entra ID representing an organization, created when signing up for Azure</li>
+<li>Each tenant is distinct - users belong to only one tenant but can be guests on other tenants</li>
+<li>Subscriptions are billing entities that use one specific Entra ID tenant - tenants can have multiple subscriptions under them</li>
+<li>Can set budget, RBAC and policy at subscription level - this will be inherited by RGs within the subscription or overridden at the RG level</li>
+<li>Subscriptions can be separated for different environments (prod &amp; test) or budget control for different cost centers</li>
+<li>Groups can either be assigned manually, dynamically assigned based on user attributes (for example ‘Department:HR’ assigning a user to an HR group) or dynamic based on device</li>
+<li>Similar to groups, administrative units can be manually or dynamically assigned and are a way of scoping management responsibilities of administrators within a subscription</li>
+</ul>
+</section>
+<section id="azure-adds" class="level5">
+<h5 class="anchored" data-anchor-id="azure-adds">Azure ADDS</h5>
+<ul>
+<li>Fully managed PAAS solution for active directory in Azure</li>
+<li>Useful for migration of legacy on-prem applications to cloud that don’t support modern entra-id authentication methods (OAuth 2.0)</li>
+<li>Support traditional ADDS features like group policy, LDAP, NTLM and Kerberos</li>
+<li>Needs to act as a completely separate domain, cannot extend existing AD forest to Azure ADDS</li>
+<li>As an alternative, you can host your AD DS in a virtual machine in Azure instead and extend your domain into Azure that way</li>
+</ul>
+</section>
+<section id="management-groups" class="level5">
+<h5 class="anchored" data-anchor-id="management-groups">Management Groups</h5>
+<ul>
+<li>Allows setting budget, RBAC and policy at a higher level than subscriptions</li>
+<li>Can choose particular management groups for certain subscriptions, RBAC, policies and budget will be inherited by subscriptions and RGs in subscriptions</li>
+<li>Root is always at the top - can create up to 6 levels below this</li>
+</ul>
+</section>
+<section id="conditional-access" class="level5">
+<h5 class="anchored" data-anchor-id="conditional-access">Conditional Access</h5>
+<ul>
+<li>Premium feature in Entra ID that uses if/then logic to allow access to defined applications</li>
+<li>Often paired with MFA</li>
+<li>Conditions selected from a policy to determine access, including
+<ul>
+<li>User/group</li>
+<li>Application</li>
+<li>Location (IP)</li>
+<li>Approved device</li>
+<li>MFA requirements</li>
+</ul></li>
+</ul>
+</section>
+<section id="azure-governance" class="level5">
+<h5 class="anchored" data-anchor-id="azure-governance">Azure Governance</h5>
+<ul>
+<li>Allows you to control what users can and cannot do through defined policies in Azure, preventing creation/modification of resources that don’t comply with the polices</li>
+<li>RBAC (Role-Based Access Control) allows you define user’s access to resources (allow access to specific resource groups, services with read or read/write permissions)</li>
+<li>Locks prevent the modification or deletion of subscriptions or resources</li>
+<li>Locks can be ReadOnly locks or CanNotDelete locks and are inherited by lower resources (e.g.&nbsp;applying a lock to a resource group would apply to all resources in group)</li>
+<li>Blueprints are templates for creating standard Azure environments from scratch</li>
+</ul>
+</section>
+<section id="azure-policy" class="level5">
+<h5 class="anchored" data-anchor-id="azure-policy">Azure Policy</h5>
+<ul>
+<li>Policy assignment allows enforcing policies at different levels of Azure deployment (management group, subscription, resource group, resource)</li>
+<li>Policy definitions define the evaluation criteria and whether they should be allowed or denied</li>
+<li>Initiative definitions are collections of policies with a specific goal</li>
+</ul>
+</section>
+<section id="tags" class="level5">
+<h5 class="anchored" data-anchor-id="tags">Tags</h5>
+<ul>
+<li>Consist of a name and value pair</li>
+<li>Up to 50 tags can be assigned to a resource</li>
+<li>Tags are not inherited from higher resources</li>
+</ul>
+</section>
+<section id="azure-bastion" class="level5">
+<h5 class="anchored" data-anchor-id="azure-bastion">Azure Bastion</h5>
+<ul>
+<li>PaaS Jumphost solution in Azure</li>
+<li>Connect to Bastion host via HTML5 browser, connection secured with TLS</li>
+<li>Allows you to access VMs without allowing any access through NSGs/adding any Public IPs</li>
+</ul>
+</section>
+<section id="passwordless-auth" class="level5">
+<h5 class="anchored" data-anchor-id="passwordless-auth">Passwordless Auth</h5>
+<ul>
+<li>Replacing password prompt with alternative auth</li>
+<li>MFA from authenticator app is one option</li>
+<li>Another is a hardware key like a Yubikey</li>
+</ul>
+</section>
+<section id="sspr" class="level5">
+<h5 class="anchored" data-anchor-id="sspr">SSPR</h5>
+<ul>
+<li>Self-Service Password Reset - allows users to reset their own Azure passwords</li>
+<li>Can use email, mobile app, mobile auth, phone numbers as reset methods</li>
+<li>By default, administrators will require at least two methods to reset their passwords for security reasons</li>
+</ul>
+</section>
+</section>
+<section id="azure-monitoring-pricing" class="level4">
+<h4 class="anchored" data-anchor-id="azure-monitoring-pricing">Azure Monitoring &amp; Pricing</h4>
+<section id="azure-monitor" class="level5">
+<h5 class="anchored" data-anchor-id="azure-monitor">Azure Monitor</h5>
+<ul>
+<li>Dashboard in Azure that gathers telemetry from Azure resources</li>
+<li>Log Analytics stores and queries Azure monitor data (using KQL queries)</li>
+<li>Application insights provides performance insights for web apps</li>
+<li>Monitor alerts notifies you of unexpected events (such as VM unresponsive, high app latency, VM using excessive CPU, etc)</li>
+</ul>
+</section>
+<section id="azure-service-health" class="level5">
+<h5 class="anchored" data-anchor-id="azure-service-health">Azure Service Health</h5>
+<ul>
+<li>Dashboard in the Azure portal that notifies you of any service issues with the Azure platform, what regions the issues are in, and can be set up to alert you of such issues</li>
+</ul>
+</section>
+<section id="azure-pricing" class="level5">
+<h5 class="anchored" data-anchor-id="azure-pricing">Azure Pricing</h5>
+<ul>
+<li><strong>Azure Cost Management</strong>
+<ul>
+<li>Dashboard in Azure for management of costs</li>
+<li>Will offer recommendations to improve your cost</li>
+</ul></li>
+<li><strong>Pricing Factors</strong>
+<ul>
+<li>Resource sizing, resource types, location, and bandwidth in/out of Azure all influence your pricing in Azure</li>
+<li>To help predict your prices, you can use the Azure pricing calculator</li>
+</ul></li>
+<li><strong>Reserved Instances/Capacity</strong>
+<ul>
+<li>You can reserve instances or capacity in Azure to pay less money by committing to 1 to 3 years instead of monthly usage</li>
+</ul></li>
+</ul>
+</section>
+</section>
+<section id="azure-dr-backups-update-management" class="level4">
+<h4 class="anchored" data-anchor-id="azure-dr-backups-update-management">Azure DR, Backups &amp; Update Management</h4>
+<ul>
+<li><strong>Device Registration</strong>
+<ul>
+<li>Can register devices with Azure Entra ID tenant - can manage these devices with Microsoft Intune as well</li>
+</ul></li>
+<li><strong>Update Management</strong>
+<ul>
+<li>Azure can evaluate VM compliance for updates on Windows &amp; Linux machines and schedule deployments and reboots for these updates</li>
+</ul></li>
+<li><strong>Desired State Configuration (DSC)</strong>
+<ul>
+<li>Can be used to enforce desired state on VMs through automation</li>
+<li>VMs are added to the DSC, which will then enforce configuration based on declared desired state via Powershell scripts</li>
+</ul></li>
+<li><strong>Azure Backups</strong>
+<ul>
+<li>Native feature in Azure that allows you to create automated backups of VMs, On-premise machines, SQL servers and restore from backups if required</li>
+</ul></li>
+<li><strong>Azure Site Recovery</strong>
+<ul>
+<li>Allows recovery of Azure resources from one region to another in case of a disaster</li>
+<li>Can be configured to fail over many resources at once</li>
+</ul></li>
+</ul>
+</section>
+<section id="azure-database-fundamentals" class="level4">
+<h4 class="anchored" data-anchor-id="azure-database-fundamentals">Azure Database Fundamentals</h4>
+<ul>
+<li><strong>Azure SQL</strong>
+<ul>
+<li>Database-as-a-service - hardware &amp; infrastructure managed by Azure</li>
+</ul></li>
+<li><strong>Azure Database for MySQL, PostGreSQL</strong>
+<ul>
+<li>Open-source MySQL &amp; PostGreSQL implementation in Azure</li>
+<li>PAAS - service infrastructure managed by Azure</li>
+<li>PostGres most commonly used in finance and manufacturing, as it offers automated failover functionality</li>
+</ul></li>
+<li><strong>Database Migration Services</strong>
+<ul>
+<li>Azure tool to migrate Microsoft SQL to Azure SQL</li>
+</ul></li>
+<li><strong>Cosmos DB</strong>
+<ul>
+<li>Azure DB that allows global access to database with low latency</li>
+<li>Allows automatic scaling</li>
+<li>Supports SQL, MongoDB and Cassandra</li>
+<li>Downside is it can be very expensive</li>
+</ul></li>
+</ul>
+</section>
+<section id="other-azure-featuresservices" class="level4">
+<h4 class="anchored" data-anchor-id="other-azure-featuresservices">Other Azure Features/Services</h4>
+<ul>
+<li><strong>Azure Marketplace</strong>
+<ul>
+<li>Microsoft and other partner offerings in Azure, such as VMs, templates and services</li>
+<li>3rd party integrations into Azure to make it easier to use their tools (PA VMs, CSRs, etc)</li>
+</ul></li>
+<li><strong>Azure Advisor</strong>
+<ul>
+<li>Azure function that provides recommendations to improve cost, security and availability/reliability</li>
+<li>It’s a good idea to follow the advisor’s recommendations unless you have specific reasons not to</li>
+</ul></li>
+<li><strong>Microsoft Defender for Cloud</strong>
+<ul>
+<li>A separate portal in Azure that provides threat alerts, policy and compliance metrics and a security score</li>
+</ul></li>
+<li><strong>Azure DDOS Protection</strong>
+<ul>
+<li>Azure has a default DDOS protection service for all Azure resources exposed to the public internet</li>
+</ul></li>
+<li><strong>External Guest Access</strong>
+<ul>
+<li>Can create a new account for an external user, or invite user as guest to Azure tenant</li>
+</ul></li>
+<li><strong>ARC</strong>
+<ul>
+<li>Allows bringing Azure ARM control plane to other clouds or on-prem clouds</li>
+</ul></li>
+<li><strong>Azure Virtual Desktop</strong>
+<ul>
+<li>Virtualized version of Windows running 100% in the cloud</li>
+</ul></li>
+<li><strong>Azure Sentinel</strong>
+<ul>
+<li>Azure-native SIEM</li>
+</ul></li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/brunbattery\.github\.io\/NetworkNotes\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./Netflow.html" class="pagination-link" aria-label="Netflow">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Netflow</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./Azure Networking (AZ-700).html" class="pagination-link" aria-label="Azure Networking (AZ-700)">
+        <span class="nav-page-text">Azure Networking (AZ-700)</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>Published by Brendan Battersby, 2024</p>
+</div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
